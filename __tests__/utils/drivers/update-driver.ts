@@ -3,7 +3,7 @@ import { Express } from 'express';
 import { DriverInputDto } from '../../../src/drivers/dto/driver.input-dto';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 import { getDriverDto } from './get-driver-dto';
-import { DRIVERS_PATH } from '../../../src/core/paths/paths';
+import { BLOGS_PATH } from '../../../src/core/paths/paths';
 import { generateBasicAuthToken } from '../generate-admin-auth-token';
 
 export async function updateDriver(
@@ -16,7 +16,7 @@ export async function updateDriver(
   const testDriverData = { ...defaultDriverData, ...driverDto };
 
   const updatedDriverResponse = await request(app)
-    .put(`${DRIVERS_PATH}/${driverId}`)
+    .put(`${BLOGS_PATH}/${driverId}`)
     .set('Authorization', generateBasicAuthToken())
     .send(testDriverData)
     .expect(HttpStatus.NoContent);

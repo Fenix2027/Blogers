@@ -9,17 +9,18 @@ import { inputValidationResultMiddleware } from '../../core/middlewares/validati
 import { driverInputDtoValidation } from '../validation/driver.input-dto.validation-middlewares';
 import { superAdminGuardMiddleware } from '../../auth/middlewares/super-admin.guard-middleware';
 
-export const driversRouter = Router({});
+export const blogsRouter = Router({});
 
-driversRouter.use(superAdminGuardMiddleware);
+blogsRouter.use();
 
-driversRouter
+blogsRouter
   .get('', getDriverListHandler)
 
   .get('/:id', idValidation, inputValidationResultMiddleware, getDriverHandler)
 
   .post(
     '',
+    superAdminGuardMiddleware,
     driverInputDtoValidation,
     inputValidationResultMiddleware,
     createDriverHandler,
@@ -27,6 +28,7 @@ driversRouter
 
   .put(
     '/:id',
+    superAdminGuardMiddleware,
     idValidation,
     driverInputDtoValidation,
     inputValidationResultMiddleware,
@@ -35,6 +37,7 @@ driversRouter
 
   .delete(
     '/:id',
+    superAdminGuardMiddleware,
     idValidation,
     inputValidationResultMiddleware,
     deleteDriverHandler,

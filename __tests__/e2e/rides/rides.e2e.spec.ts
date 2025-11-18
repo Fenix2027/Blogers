@@ -5,7 +5,7 @@ import { generateBasicAuthToken } from '../../utils/generate-admin-auth-token';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 import { clearDb } from '../../utils/clear-db';
 import { createRide } from '../../utils/rides/create-ride';
-import { RIDES_PATH } from '../../../src/core/paths/paths';
+import { POSTS_PATH } from '../../../src/core/paths/paths';
 import { getRideById } from '../../utils/rides/get-ride-by-id';
 
 describe('Rides API', () => {
@@ -26,7 +26,7 @@ describe('Rides API', () => {
     await createRide(app);
 
     const rideListResponse = await request(app)
-      .get(RIDES_PATH)
+      .get(POSTS_PATH)
       .set('Authorization', adminToken)
       .expect(HttpStatus.Ok);
 

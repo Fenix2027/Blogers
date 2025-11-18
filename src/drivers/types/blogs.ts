@@ -4,7 +4,7 @@ export enum VehicleFeature {
   PetFriendly = 'pet-friendly',
 }
 
-export type Driver = {
+export type Blogs = {
   id: number;
   name: string;
   phoneNumber: string;

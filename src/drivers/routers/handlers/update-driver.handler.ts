@@ -2,14 +2,14 @@ import { Request, Response } from 'express';
 import { DriverInputDto } from '../../dto/driver.input-dto';
 import { HttpStatus } from '../../../core/types/http-statuses';
 import { createErrorMessages } from '../../../core/utils/error.utils';
-import { driversRepository } from '../../repositories/drivers.repository';
+import { blogsRepository } from '../../repositories/blogsRepository';
 
 export function updateDriverHandler(
   req: Request<{ id: string }, {}, DriverInputDto>,
   res: Response,
 ) {
   const id = parseInt(req.params.id);
-  const driver = driversRepository.findById(id);
+  const driver = blogsRepository.findById(id);
 
   if (!driver) {
     res
@@ -20,6 +20,6 @@ export function updateDriverHandler(
     return;
   }
 
-  driversRepository.update(id, req.body);
+  blogsRepository.update(id, req.body);
   res.sendStatus(HttpStatus.NoContent);
 }

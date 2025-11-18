@@ -1,3 +1,3 @@
 export const TESTING_PATH = '/api/testing';
-export const DRIVERS_PATH = '/api/drivers';
-export const RIDES_PATH = '/api/rides';
+export const BLOGS_PATH = '/api/blogs';
+export const POSTS_PATH = '/api/posts';

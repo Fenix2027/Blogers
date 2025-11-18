@@ -6,7 +6,7 @@ import { RideInputDto } from '../../../src/rides/dto/ride-input.dto';
 import { createDriver } from '../drivers/create-driver';
 import { Ride } from '../../../src/rides/types/ride';
 import { generateBasicAuthToken } from '../generate-admin-auth-token';
-import { RIDES_PATH } from '../../../src/core/paths/paths';
+import { POSTS_PATH } from '../../../src/core/paths/paths';
 import { getRideDto } from './get-ride-dto';
 
 export async function createRide(
@@ -20,7 +20,7 @@ export async function createRide(
   const testRideData = { ...defaultRideData, ...rideDto };
 
   const createdRideResponse = await request(app)
-    .post(RIDES_PATH)
+    .post(POSTS_PATH)
     .set('Authorization', generateBasicAuthToken())
     .send(testRideData)
     .expect(HttpStatus.Created);

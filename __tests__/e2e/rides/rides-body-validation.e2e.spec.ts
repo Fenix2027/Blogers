@@ -6,7 +6,7 @@ import { setupApp } from '../../../src/setup-app';
 import { generateBasicAuthToken } from '../../utils/generate-admin-auth-token';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 import { clearDb } from '../../utils/clear-db';
-import { RIDES_PATH } from '../../../src/core/paths/paths';
+import { POSTS_PATH } from '../../../src/core/paths/paths';
 import { Currency } from '../../../src/rides/types/ride';
 
 describe('Rides API body validation check', () => {
@@ -26,7 +26,7 @@ describe('Rides API body validation check', () => {
       .expect(HttpStatus.Unauthorized);
 
     const invalidDataSet1 = await request(app)
-      .post(RIDES_PATH)
+      .post(POSTS_PATH)
       .set('Authorization', generateBasicAuthToken())
       .send({
         clientName: '   ', // empty string
@@ -41,7 +41,7 @@ describe('Rides API body validation check', () => {
     expect(invalidDataSet1.body.errorMessages).toHaveLength(6);
 
     const invalidDataSet2 = await request(app)
-      .post(RIDES_PATH)
+      .post(POSTS_PATH)
       .set('Authorization', generateBasicAuthToken())
       .send({
         clientName: 'LA', // short string
@@ -56,7 +56,7 @@ describe('Rides API body validation check', () => {
     expect(invalidDataSet2.body.errorMessages).toHaveLength(5);
 
     const invalidDataSet3 = await request(app)
-      .post(RIDES_PATH)
+      .post(POSTS_PATH)
       .set('Authorization', generateBasicAuthToken())
       .send({
         driverId: 5000, //driver should exist
@@ -72,7 +72,7 @@ describe('Rides API body validation check', () => {
 
     // check что никто не создался
     const riderListResponse = await request(app)
-      .get(RIDES_PATH)
+      .get(POSTS_PATH)
       .set('Authorization', adminToken);
 
     expect(riderListResponse.body).toHaveLength(0);

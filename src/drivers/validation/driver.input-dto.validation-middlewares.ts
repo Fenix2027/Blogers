@@ -1,5 +1,5 @@
 import { body } from 'express-validator';
-import { VehicleFeature } from '../types/driver';
+import { VehicleFeature } from '../types/blogs';
 
 const nameValidation = body('name')
   .isString()

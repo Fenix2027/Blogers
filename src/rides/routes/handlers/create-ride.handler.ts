@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { RideInputDto } from '../../dto/ride-input.dto';
-import { driversRepository } from '../../../drivers/repositories/drivers.repository';
+import { blogsRepository } from '../../../drivers/repositories/blogsRepository';
 import { HttpStatus } from '../../../core/types/http-statuses';
 import { createErrorMessages } from '../../../core/middlewares/validation/input-validtion-result.middleware';
 import { ridesRepository } from '../../repositories/rides.repository';
@@ -13,7 +13,7 @@ export function createRideHandler(
 ) {
   const driverId = req.body.driverId;
 
-  const driver = driversRepository.findById(driverId);
+  const driver = blogsRepository.findById(driverId);
 
   if (!driver) {
     res

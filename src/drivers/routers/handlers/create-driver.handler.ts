@@ -2,15 +2,15 @@ import { Request, Response } from 'express';
 import { DriverInputDto } from '../../dto/driver.input-dto';
 import { HttpStatus } from '../../../core/types/http-statuses';
 import { db } from '../../../db/in-memory.db';
-import { Driver } from '../../types/driver';
-import { driversRepository } from '../../repositories/drivers.repository';
+import { Blogs } from '../../types/blogs';
+import { blogsRepository } from '../../repositories/blogsRepository';
 
 export function createDriverHandler(
   req: Request<{}, {}, DriverInputDto>,
   res: Response,
 ) {
-  const newDriver: Driver = {
-    id: db.drivers.length ? db.drivers[db.drivers.length - 1].id + 1 : 1,
+  const newDriver: Blogs = {
+    id: db.blogs.length ? db.blogs[db.blogs.length - 1].id + 1 : 1,
     name: req.body.name,
     phoneNumber: req.body.phoneNumber,
     email: req.body.email,
@@ -23,6 +23,6 @@ export function createDriverHandler(
     createdAt: new Date(),
   };
 
-  driversRepository.create(newDriver);
+  blogsRepository.create(newDriver);
   res.status(HttpStatus.Created).send(newDriver);
 }

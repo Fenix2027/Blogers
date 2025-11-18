@@ -1,4 +1,4 @@
-import { VehicleFeature } from '../types/driver';
+import { VehicleFeature } from '../types/blogs';
 
 export type DriverInputDto = {
   name: string;

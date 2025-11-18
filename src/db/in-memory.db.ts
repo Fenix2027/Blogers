@@ -1,8 +1,8 @@
-import { Driver, VehicleFeature } from '../drivers/types/driver';
+import { Blogs, VehicleFeature } from '../drivers/types/blogs';
 import { Ride } from '../rides/types/ride';
 
 export const db = {
-  drivers: <Driver[]>[
+  blogs: <Blogs[]>[
     {
       id: 1,
       name: 'Tom Rider',

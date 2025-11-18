@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import { HttpStatus } from '../../../core/types/http-statuses';
 import { createErrorMessages } from '../../../core/utils/error.utils';
-import { driversRepository } from '../../repositories/drivers.repository';
+import { blogsRepository } from '../../repositories/blogsRepository';
 
 export function deleteDriverHandler(req: Request, res: Response) {
   const id = parseInt(req.params.id);
-  const driver = driversRepository.findById(id);
+  const driver = blogsRepository.findById(id);
 
   if (!driver) {
     res
@@ -16,6 +16,6 @@ export function deleteDriverHandler(req: Request, res: Response) {
     return;
   }
 
-  driversRepository.delete(id);
+  blogsRepository.delete(id);
   res.sendStatus(HttpStatus.NoContent);
 }

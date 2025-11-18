@@ -1,16 +1,16 @@
 import request from 'supertest';
 import { Express } from 'express';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
-import { DRIVERS_PATH } from '../../../src/core/paths/paths';
+import { BLOGS_PATH } from '../../../src/core/paths/paths';
 import { generateBasicAuthToken } from '../generate-admin-auth-token';
-import { Driver } from '../../../src/drivers/types/driver';
+import { Blogs } from '../../../src/drivers/types/blogs';
 
 export async function getDriverById(
   app: Express,
   driverId: number,
-): Promise<Driver> {
+): Promise<Blogs> {
   const driverResponse = await request(app)
-    .get(`${DRIVERS_PATH}/${driverId}`)
+    .get(`${BLOGS_PATH}/${driverId}`)
     .set('Authorization', generateBasicAuthToken())
     .expect(HttpStatus.Ok);
 

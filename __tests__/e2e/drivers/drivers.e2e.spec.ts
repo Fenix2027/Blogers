@@ -1,10 +1,10 @@
 import request from 'supertest';
 import express from 'express';
-import { VehicleFeature } from '../../../src/drivers/types/driver';
+import { VehicleFeature } from '../../../src/drivers/types/blogs';
 import { setupApp } from '../../../src/setup-app';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 import { DriverInputDto } from '../../../src/drivers/dto/driver.input-dto';
-import { DRIVERS_PATH } from '../../../src/core/paths/paths';
+import { BLOGS_PATH } from '../../../src/core/paths/paths';
 import { getDriverDto } from '../../utils/drivers/get-driver-dto';
 import { generateBasicAuthToken } from '../../utils/generate-admin-auth-token';
 import { createDriver } from '../../utils/drivers/create-driver';
@@ -37,7 +37,7 @@ describe('Driver API', () => {
     await createDriver(app);
 
     const response = await request(app)
-      .get(DRIVERS_PATH)
+      .get(BLOGS_PATH)
       .set('Authorization', adminToken)
       .expect(HttpStatus.Ok);
 
@@ -87,12 +87,12 @@ describe('Driver API', () => {
     const createdDriver = await createDriver(app);
 
     await request(app)
-      .delete(`${DRIVERS_PATH}/${createdDriver.id}`)
+      .delete(`${BLOGS_PATH}/${createdDriver.id}`)
       .set('Authorization', adminToken)
       .expect(HttpStatus.NoContent);
 
     await request(app)
-      .get(`${DRIVERS_PATH}/${createdDriver.id}`)
+      .get(`${BLOGS_PATH}/${createdDriver.id}`)
       .set('Authorization', adminToken)
       .expect(HttpStatus.NotFound);
   });

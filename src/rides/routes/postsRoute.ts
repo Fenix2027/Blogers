@@ -6,23 +6,43 @@ import { rideInputDtoValidation } from '../validation/ride.input-dto.validation-
 import { createRideHandler } from './handlers/create-ride.handler';
 import { getRideListHandler } from './handlers/get-ride-list.handler';
 import { getRideHandler } from './handlers/get-ride.handler';
+import { driverInputDtoValidation } from '../../drivers/validation/driver.input-dto.validation-middlewares';
+import { updateDriverHandler } from '../../drivers/routers/handlers/update-driver.handler';
+import { deleteDriverHandler } from '../../drivers/routers/handlers/delete-driver.handler';
 
-export const ridesRoute = Router({});
+export const postsRoute = Router({});
 
-ridesRoute.use(superAdminGuardMiddleware);
+postsRoute.use();
 
-ridesRoute.get('', getRideListHandler);
+postsRoute.get('', getRideListHandler);
 
-ridesRoute.get(
+postsRoute.get(
   '/:id',
   idValidation,
   inputValidationResultMiddleware,
   getRideHandler,
 );
 
-ridesRoute.post(
+postsRoute.post(
   '',
+  superAdminGuardMiddleware,
   rideInputDtoValidation,
   inputValidationResultMiddleware,
   createRideHandler,
+);
+postsRoute.put(
+  '/:id',
+  superAdminGuardMiddleware,
+  idValidation,
+  driverInputDtoValidation,
+  inputValidationResultMiddleware,
+  updateDriverHandler,
+);
+
+postsRoute.delete(
+  '/:id',
+  superAdminGuardMiddleware,
+  idValidation,
+  inputValidationResultMiddleware,
+  deleteDriverHandler,
 );

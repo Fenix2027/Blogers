@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { driversRepository } from '../../repositories/drivers.repository';
+import { blogsRepository } from '../../repositories/blogsRepository';
 
 export function getDriverListHandler(req: Request, res: Response) {
-  const drivers = driversRepository.findAll();
+  const drivers = blogsRepository.findAll();
   res.send(drivers);
 }
