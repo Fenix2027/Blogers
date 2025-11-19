@@ -1,9 +1,9 @@
 import request from 'supertest';
 import express from 'express';
-import { VehicleFeature } from '../../../src/drivers/types/blogs';
+import { VehicleFeature } from '../../../src/blogs/types/blogs';
 import { setupApp } from '../../../src/setup-app';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
-import { DriverInputDto } from '../../../src/drivers/dto/driver.input-dto';
+import { BlogsInputDto } from '../../../src/blogs/dto/blogs-input.dto';
 import { BLOGS_PATH } from '../../../src/core/paths/paths';
 import { generateBasicAuthToken } from '../../utils/generate-admin-auth-token';
 import { getDriverDto } from '../../utils/drivers/get-driver-dto';
@@ -15,7 +15,7 @@ describe('Driver API body validation check', () => {
   const app = express();
   setupApp(app);
 
-  const correctTestDriverData: DriverInputDto = getDriverDto();
+  const correctTestDriverData: BlogsInputDto = getDriverDto();
 
   const adminToken = generateBasicAuthToken();
 
@@ -90,7 +90,7 @@ describe('Driver API body validation check', () => {
     expect(driverListResponse.body).toHaveLength(0);
   });
 
-  it('❌ should not update driver when incorrect data passed; PUT /api/drivers/:id', async () => {
+  it('❌ should not update driver when incorrect data passed; PUT /api/blogs/:id', async () => {
     const createdDriver = await createDriver(app, correctTestDriverData);
 
     const invalidDataSet1 = await request(app)
@@ -156,7 +156,7 @@ describe('Driver API body validation check', () => {
     });
   });
 
-  it('❌ should not update driver when incorrect features passed; PUT /api/drivers/:id', async () => {
+  it('❌ should not update driver when incorrect features passed; PUT /api/blogs/:id', async () => {
     const createdDriver = await createDriver(app, correctTestDriverData);
 
     await request(app)

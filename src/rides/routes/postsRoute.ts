@@ -6,9 +6,9 @@ import { rideInputDtoValidation } from '../validation/ride.input-dto.validation-
 import { createRideHandler } from './handlers/create-ride.handler';
 import { getRideListHandler } from './handlers/get-ride-list.handler';
 import { getRideHandler } from './handlers/get-ride.handler';
-import { driverInputDtoValidation } from '../../drivers/validation/driver.input-dto.validation-middlewares';
-import { updateDriverHandler } from '../../drivers/routers/handlers/update-driver.handler';
-import { deleteDriverHandler } from '../../drivers/routers/handlers/delete-driver.handler';
+import { blogsInputDtoValidation } from '../../blogs/validation/driver.input-dto.validation-middlewares';
+import { updateBlogHandler } from '../../blogs/routers/handlers/update-blog.handler';
+import { deleteBlogHandler } from '../../blogs/routers/handlers/delete-blog.handler';
 
 export const postsRoute = Router({});
 
@@ -34,9 +34,9 @@ postsRoute.put(
   '/:id',
   superAdminGuardMiddleware,
   idValidation,
-  driverInputDtoValidation,
+  blogsInputDtoValidation,
   inputValidationResultMiddleware,
-  updateDriverHandler,
+  updateBlogHandler,
 );
 
 postsRoute.delete(
@@ -44,5 +44,5 @@ postsRoute.delete(
   superAdminGuardMiddleware,
   idValidation,
   inputValidationResultMiddleware,
-  deleteDriverHandler,
+  deleteBlogHandler,
 );

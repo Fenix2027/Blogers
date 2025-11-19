@@ -1,23 +1,23 @@
 import { Blogs } from '../types/blogs';
 import { db } from '../../db/in-memory.db';
-import { DriverInputDto } from '../dto/driver.input-dto';
+import { BlogsInputDto } from '../dto/blogs-input.dto';
 
 export const blogsRepository = {
   findAll(): Blogs[] {
     return db.blogs;
   },
 
-  findById(id: number): Blogs | null {
+  findById(id: string): Blogs | null {
     return db.blogs.find((d) => d.id === id) ?? null; // Если результат поиска равно null или undefined, то вернем null.
   },
 
-  create(newDriver: Blogs): Blogs {
-    db.blogs.push(newDriver);
+  create(newBlog: Blogs): Blogs {
+    db.blogs.push(newBlog);
 
-    return newDriver;
+    return newBlog;
   },
 
-  update(id: number, dto: DriverInputDto): void {
+  update(id: string, dto: BlogsInputDto): void {
     const blogs = db.blogs.find((d) => d.id === id);
 
     if (!blogs) {
@@ -25,19 +25,13 @@ export const blogsRepository = {
     }
 
     blogs.name = dto.name;
-    blogs.phoneNumber = dto.phoneNumber;
-    blogs.email = dto.email;
-    blogs.vehicleMake = dto.vehicleMake;
-    blogs.vehicleModel = dto.vehicleModel;
-    blogs.vehicleYear = dto.vehicleYear;
-    blogs.vehicleLicensePlate = dto.vehicleLicensePlate;
-    blogs.vehicleDescription = dto.vehicleDescription;
-    blogs.vehicleFeatures = dto.vehicleFeatures;
+    blogs.description = dto.description;
+    blogs.websiteUrl = dto.websiteUrl;
 
     return;
   },
 
-  delete(id: number): void {
+  delete(id: string): void {
     const index = db.blogs.findIndex((v) => v.id === id);
 
     if (index === -1) {

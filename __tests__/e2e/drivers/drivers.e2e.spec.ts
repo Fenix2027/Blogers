@@ -1,9 +1,9 @@
 import request from 'supertest';
 import express from 'express';
-import { VehicleFeature } from '../../../src/drivers/types/blogs';
+import { VehicleFeature } from '../../../src/blogs/types/blogs';
 import { setupApp } from '../../../src/setup-app';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
-import { DriverInputDto } from '../../../src/drivers/dto/driver.input-dto';
+import { BlogsInputDto } from '../../../src/blogs/dto/blogs-input.dto';
 import { BLOGS_PATH } from '../../../src/core/paths/paths';
 import { getDriverDto } from '../../utils/drivers/get-driver-dto';
 import { generateBasicAuthToken } from '../../utils/generate-admin-auth-token';
@@ -22,8 +22,8 @@ describe('Driver API', () => {
     await clearDb(app);
   });
 
-  it('✅ should create driver; POST /api/drivers', async () => {
-    const newDriver: DriverInputDto = {
+  it('✅ should create driver; POST /api/blogs', async () => {
+    const newDriver: BlogsInputDto = {
       ...getDriverDto(),
       name: 'Feodor',
       email: 'feodor@example.com',
@@ -32,7 +32,7 @@ describe('Driver API', () => {
     await createDriver(app, newDriver);
   });
 
-  it('✅ should return drivers list; GET /api/drivers', async () => {
+  it('✅ should return blogs list; GET /api/blogs', async () => {
     await createDriver(app);
     await createDriver(app);
 
@@ -45,7 +45,7 @@ describe('Driver API', () => {
     expect(response.body.length).toBeGreaterThanOrEqual(2);
   });
 
-  it('✅ should return driver by id; GET /api/drivers/:id', async () => {
+  it('✅ should return driver by id; GET /api/blogs/:id', async () => {
     const createdDriver = await createDriver(app);
 
     const driver = await getDriverById(app, createdDriver.id);
@@ -57,10 +57,10 @@ describe('Driver API', () => {
     });
   });
 
-  it('✅ should update driver; PUT /api/drivers/:id', async () => {
+  it('✅ should update driver; PUT /api/blogs/:id', async () => {
     const createdDriver = await createDriver(app);
 
-    const driverUpdateData: DriverInputDto = {
+    const driverUpdateData: BlogsInputDto = {
       name: 'Updated Name',
       phoneNumber: '999-888-7777',
       email: 'updated@example.com',
@@ -83,7 +83,7 @@ describe('Driver API', () => {
     });
   });
 
-  it('✅ should delete driver and check after "NOT FOUND"; DELETE /api/drivers/:id', async () => {
+  it('✅ should delete driver and check after "NOT FOUND"; DELETE /api/blogs/:id', async () => {
     const createdDriver = await createDriver(app);
 
     await request(app)

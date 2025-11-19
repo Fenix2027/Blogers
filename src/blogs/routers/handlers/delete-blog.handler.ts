@@ -3,16 +3,14 @@ import { HttpStatus } from '../../../core/types/http-statuses';
 import { createErrorMessages } from '../../../core/utils/error.utils';
 import { blogsRepository } from '../../repositories/blogsRepository';
 
-export function deleteDriverHandler(req: Request, res: Response) {
-  const id = parseInt(req.params.id);
-  const driver = blogsRepository.findById(id);
+export function deleteBlogHandler(req: Request, res: Response) {
+  const id = req.params.id;
+  const blog = blogsRepository.findById(id);
 
-  if (!driver) {
+  if (!blog) {
     res
       .status(HttpStatus.NotFound)
-      .send(
-        createErrorMessages([{ field: 'id', message: 'Vehicle not found' }]),
-      );
+      .send(createErrorMessages([{ field: 'id', message: 'Blog not found' }]));
     return;
   }
 

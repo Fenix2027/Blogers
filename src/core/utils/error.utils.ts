@@ -1,4 +1,4 @@
-import { ValidationError } from '../../drivers/types/validationError';
+import { ValidationError } from '../../blogs/types/validationError';
 
 export const createErrorMessages = (
   errors: ValidationError[],

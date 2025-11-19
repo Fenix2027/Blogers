@@ -1,21 +1,21 @@
 import { Request, Response } from 'express';
-import { DriverInputDto } from '../../dto/driver.input-dto';
+import { BlogsInputDto } from '../../dto/blogs-input.dto';
 import { HttpStatus } from '../../../core/types/http-statuses';
 import { createErrorMessages } from '../../../core/utils/error.utils';
 import { blogsRepository } from '../../repositories/blogsRepository';
 
-export function updateDriverHandler(
-  req: Request<{ id: string }, {}, DriverInputDto>,
+export function updateBlogHandler(
+  req: Request<{ id: string }, {}, BlogsInputDto>,
   res: Response,
 ) {
-  const id = parseInt(req.params.id);
-  const driver = blogsRepository.findById(id);
+  const id = req.params.id;
+  const blog = blogsRepository.findById(id);
 
-  if (!driver) {
+  if (!blog) {
     res
       .status(HttpStatus.NotFound)
       .send(
-        createErrorMessages([{ field: 'id', message: 'Vehicle not found' }]),
+        createErrorMessages([{ field: 'id', message: 'Blog not found' }]),
       );
     return;
   }

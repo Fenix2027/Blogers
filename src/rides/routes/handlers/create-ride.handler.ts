@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { RideInputDto } from '../../dto/ride-input.dto';
-import { blogsRepository } from '../../../drivers/repositories/blogsRepository';
+import { blogsRepository } from '../../../blogs/repositories/blogsRepository';
 import { HttpStatus } from '../../../core/types/http-statuses';
 import { createErrorMessages } from '../../../core/middlewares/validation/input-validtion-result.middleware';
 import { ridesRepository } from '../../repositories/rides.repository';

@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { Express } from 'express';
-import { DriverInputDto } from '../../../src/drivers/dto/driver.input-dto';
+import { BlogsInputDto } from '../../../src/blogs/dto/blogs-input.dto';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 import { getDriverDto } from './get-driver-dto';
 import { BLOGS_PATH } from '../../../src/core/paths/paths';
@@ -9,9 +9,9 @@ import { generateBasicAuthToken } from '../generate-admin-auth-token';
 export async function updateDriver(
   app: Express,
   driverId: number,
-  driverDto?: DriverInputDto,
+  driverDto?: BlogsInputDto,
 ): Promise<void> {
-  const defaultDriverData: DriverInputDto = getDriverDto();
+  const defaultDriverData: BlogsInputDto = getDriverDto();
 
   const testDriverData = { ...defaultDriverData, ...driverDto };
 
