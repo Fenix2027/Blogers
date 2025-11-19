@@ -1,12 +1,12 @@
 // @ts-ignore
 import request from 'supertest';
-import { Ride } from '../../../src/rides/types/ride';
+import { Post } from '../../../src/rides/types/post';
 import { Express } from 'express';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 import { POSTS_PATH } from '../../../src/core/paths/paths';
 import { generateBasicAuthToken } from '../generate-admin-auth-token';
 
-export async function getRideById(app: Express, rideId: number): Promise<Ride> {
+export async function getRideById(app: Express, rideId: number): Promise<Post> {
   const getResponse = await request(app)
     .get(`${POSTS_PATH}/${rideId}`)
     .set('Authorization', generateBasicAuthToken())

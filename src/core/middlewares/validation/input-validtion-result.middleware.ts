@@ -11,7 +11,7 @@ import { ValidationErrorDto } from '../../types/validationError.dto';
 export const createErrorMessages = (
   errors: ValidationErrorType[],
 ): ValidationErrorDto => {
-  return { errorMessages: errors };
+  return { errorsMessages: errors };
 };
 
 const formatErrors = (error: ValidationError): ValidationErrorType => {

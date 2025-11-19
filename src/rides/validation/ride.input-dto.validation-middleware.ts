@@ -1,5 +1,5 @@
 import { body } from 'express-validator';
-import { Currency } from '../types/ride';
+import { Currency } from '../types/post';
 
 export const clientNameValidation = body('clientName')
   .isString()

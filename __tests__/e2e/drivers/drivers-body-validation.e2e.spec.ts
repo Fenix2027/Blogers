@@ -8,8 +8,8 @@ import { BLOGS_PATH } from '../../../src/core/paths/paths';
 import { generateBasicAuthToken } from '../../utils/generate-admin-auth-token';
 import { getDriverDto } from '../../utils/drivers/get-driver-dto';
 import { clearDb } from '../../utils/clear-db';
-import { createDriver } from '../../utils/drivers/create-driver';
-import { getDriverById } from '../../utils/drivers/get-driver-by-id';
+import { createBlog } from '../../utils/drivers/create-blog';
+import { getBlogById } from '../../utils/drivers/get-blog-by-id';
 
 describe('Driver API body validation check', () => {
   const app = express();
@@ -34,14 +34,8 @@ describe('Driver API body validation check', () => {
       .set('Authorization', generateBasicAuthToken())
       .send({
         name: '   ', // empty string
-        phoneNumber: '    ', // empty string
-        email: 'invalid email', // incorrect email
-        vehicleMake: '', // empty string
-        vehicleModel: 'A6',
-        vehicleYear: 2020,
-        vehicleLicensePlate: 'XYZ-456',
-        vehicleDescription: null,
-        vehicleFeatures: [],
+        description: '    ', // empty string
+        websiteUrl: 'invalid email', // incorrect email
       })
       .expect(HttpStatus.BadRequest);
 
@@ -91,7 +85,7 @@ describe('Driver API body validation check', () => {
   });
 
   it('❌ should not update driver when incorrect data passed; PUT /api/blogs/:id', async () => {
-    const createdDriver = await createDriver(app, correctTestDriverData);
+    const createdDriver = await createBlog(app, correctTestDriverData);
 
     const invalidDataSet1 = await request(app)
       .put(`${BLOGS_PATH}/${createdDriver.id}`)
@@ -147,7 +141,7 @@ describe('Driver API body validation check', () => {
 
     expect(invalidDataSet3.body.errorMessages).toHaveLength(1);
 
-    const driverResponse = await getDriverById(app, createdDriver.id);
+    const driverResponse = await getBlogById(app, createdDriver.id);
 
     expect(driverResponse).toEqual({
       ...correctTestDriverData,
@@ -157,7 +151,7 @@ describe('Driver API body validation check', () => {
   });
 
   it('❌ should not update driver when incorrect features passed; PUT /api/blogs/:id', async () => {
-    const createdDriver = await createDriver(app, correctTestDriverData);
+    const createdDriver = await createBlog(app, correctTestDriverData);
 
     await request(app)
       .put(`${BLOGS_PATH}/${createdDriver.id}`)
@@ -179,7 +173,7 @@ describe('Driver API body validation check', () => {
       })
       .expect(HttpStatus.BadRequest);
 
-    const driverResponse = await getDriverById(app, createdDriver.id);
+    const driverResponse = await getBlogById(app, createdDriver.id);
 
     expect(driverResponse).toEqual({
       ...correctTestDriverData,

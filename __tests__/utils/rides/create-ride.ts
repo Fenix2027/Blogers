@@ -2,18 +2,18 @@
 import request from 'supertest';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 import { Express } from 'express';
-import { RideInputDto } from '../../../src/rides/dto/ride-input.dto';
-import { createDriver } from '../drivers/create-driver';
-import { Ride } from '../../../src/rides/types/ride';
+import { PostInputDto } from '../../../src/rides/dto/post-input.dto';
+import { createBlog } from '../drivers/create-blog';
+import { Post } from '../../../src/rides/types/post';
 import { generateBasicAuthToken } from '../generate-admin-auth-token';
 import { POSTS_PATH } from '../../../src/core/paths/paths';
 import { getRideDto } from './get-ride-dto';
 
 export async function createRide(
   app: Express,
-  rideDto?: RideInputDto,
-): Promise<Ride> {
-  const driver = await createDriver(app);
+  rideDto?: PostInputDto,
+): Promise<Post> {
+  const driver = await createBlog(app);
 
   const defaultRideData = getRideDto(driver.id);
 

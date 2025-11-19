@@ -1,16 +1,15 @@
 import request from 'supertest';
 import express from 'express';
-import { VehicleFeature } from '../../../src/blogs/types/blogs';
 import { setupApp } from '../../../src/setup-app';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 import { BlogsInputDto } from '../../../src/blogs/dto/blogs-input.dto';
 import { BLOGS_PATH } from '../../../src/core/paths/paths';
 import { getDriverDto } from '../../utils/drivers/get-driver-dto';
 import { generateBasicAuthToken } from '../../utils/generate-admin-auth-token';
-import { createDriver } from '../../utils/drivers/create-driver';
+import { createBlog } from '../../utils/drivers/create-blog';
 import { clearDb } from '../../utils/clear-db';
-import { getDriverById } from '../../utils/drivers/get-driver-by-id';
-import { updateDriver } from '../../utils/drivers/update-driver';
+import { getBlogById } from '../../utils/drivers/get-blog-by-id';
+import { updateBlog } from '../../utils/drivers/update-blog';
 
 describe('Driver API', () => {
   const app = express();
@@ -23,18 +22,18 @@ describe('Driver API', () => {
   });
 
   it('✅ should create driver; POST /api/blogs', async () => {
-    const newDriver: BlogsInputDto = {
+    const newBlog: BlogsInputDto = {
       ...getDriverDto(),
       name: 'Feodor',
-      email: 'feodor@example.com',
+      websiteUrl: 'feodor@example.com',
     };
 
-    await createDriver(app, newDriver);
+    await createBlog(app, newBlog);
   });
 
   it('✅ should return blogs list; GET /api/blogs', async () => {
-    await createDriver(app);
-    await createDriver(app);
+    await createBlog(app);
+    await createBlog(app);
 
     const response = await request(app)
       .get(BLOGS_PATH)
@@ -46,53 +45,47 @@ describe('Driver API', () => {
   });
 
   it('✅ should return driver by id; GET /api/blogs/:id', async () => {
-    const createdDriver = await createDriver(app);
+    const createdDriver = await createBlog(app);
 
-    const driver = await getDriverById(app, createdDriver.id);
+    const blog = await getBlogById(app, createdDriver.id);
 
-    expect(driver).toEqual({
+    expect(blog).toEqual({
       ...createdDriver,
-      id: expect.any(Number),
-      createdAt: expect.any(String),
+      id: expect.any(String),
+      description: expect.any(String),
     });
   });
 
   it('✅ should update driver; PUT /api/blogs/:id', async () => {
-    const createdDriver = await createDriver(app);
+    const createdBlog = await createBlog(app);
 
-    const driverUpdateData: BlogsInputDto = {
+    const blogUpdateData: BlogsInputDto = {
       name: 'Updated Name',
-      phoneNumber: '999-888-7777',
-      email: 'updated@example.com',
-      vehicleMake: 'Tesla',
-      vehicleModel: 'Model S',
-      vehicleYear: 2022,
-      vehicleLicensePlate: 'NEW-789',
-      vehicleDescription: 'Updated vehicle description',
-      vehicleFeatures: [VehicleFeature.ChildSeat],
+      description: '999-888-7777',
+      websiteUrl: 'updated@example.com',
     };
 
-    await updateDriver(app, createdDriver.id, driverUpdateData);
+    await updateBlog(app, createdBlog.id, blogUpdateData);
 
-    const driverResponse = await getDriverById(app, createdDriver.id);
+    const blogResponse = await getBlogById(app, createdBlog.id);
 
-    expect(driverResponse).toEqual({
-      ...driverUpdateData,
-      id: createdDriver.id,
-      createdAt: expect.any(String),
+    expect(blogResponse).toEqual({
+      ...blogUpdateData,
+      id: createdBlog.id,
+      description: expect.any(String),
     });
   });
 
   it('✅ should delete driver and check after "NOT FOUND"; DELETE /api/blogs/:id', async () => {
-    const createdDriver = await createDriver(app);
+    const createdBlog = await createBlog(app);
 
     await request(app)
-      .delete(`${BLOGS_PATH}/${createdDriver.id}`)
+      .delete(`${BLOGS_PATH}/${createdBlog.id}`)
       .set('Authorization', adminToken)
       .expect(HttpStatus.NoContent);
 
     await request(app)
-      .get(`${BLOGS_PATH}/${createdDriver.id}`)
+      .get(`${BLOGS_PATH}/${createdBlog.id}`)
       .set('Authorization', adminToken)
       .expect(HttpStatus.NotFound);
   });

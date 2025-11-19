@@ -3,8 +3,8 @@ import { inputValidationResultMiddleware } from '../../core/middlewares/validati
 import { superAdminGuardMiddleware } from '../../auth/middlewares/super-admin.guard-middleware';
 import { idValidation } from '../../core/middlewares/validation/params-id.validation-middleware';
 import { rideInputDtoValidation } from '../validation/ride.input-dto.validation-middleware';
-import { createRideHandler } from './handlers/create-ride.handler';
-import { getRideListHandler } from './handlers/get-ride-list.handler';
+import { createPostHandler } from './handlers/create-post.handler';
+import { getPostsListHandler } from './handlers/get-posts-list.handler';
 import { getRideHandler } from './handlers/get-ride.handler';
 import { blogsInputDtoValidation } from '../../blogs/validation/driver.input-dto.validation-middlewares';
 import { updateBlogHandler } from '../../blogs/routers/handlers/update-blog.handler';
@@ -14,7 +14,7 @@ export const postsRoute = Router({});
 
 postsRoute.use();
 
-postsRoute.get('', getRideListHandler);
+postsRoute.get('', getPostsListHandler);
 
 postsRoute.get(
   '/:id',
@@ -28,7 +28,7 @@ postsRoute.post(
   superAdminGuardMiddleware,
   rideInputDtoValidation,
   inputValidationResultMiddleware,
-  createRideHandler,
+  createPostHandler,
 );
 postsRoute.put(
   '/:id',

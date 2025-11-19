@@ -1,5 +1,5 @@
 import { Blogs } from '../blogs/types/blogs';
-import { Ride } from '../rides/types/ride';
+import { Post } from '../rides/types/post';
 
 export const db = {
   blogs: <Blogs[]>[
@@ -22,5 +22,5 @@ export const db = {
       websiteUrl: 'tom.rider@example.com',
     },
   ],
-  rides: <Ride[]>[],
+  posts: <Post[]>[],
 };

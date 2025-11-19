@@ -6,9 +6,9 @@ import { getDriverDto } from './get-driver-dto';
 import { BLOGS_PATH } from '../../../src/core/paths/paths';
 import { generateBasicAuthToken } from '../generate-admin-auth-token';
 
-export async function updateDriver(
-  app: Express,
-  driverId: number,
+export async function updateBlog(
+  app: e.Express,
+  driverId: string,
   driverDto?: BlogsInputDto,
 ): Promise<void> {
   const defaultDriverData: BlogsInputDto = getDriverDto();

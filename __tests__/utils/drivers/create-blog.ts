@@ -7,7 +7,7 @@ import { Blogs } from '../../../src/blogs/types/blogs';
 import { BLOGS_PATH } from '../../../src/core/paths/paths';
 import { getDriverDto } from './get-driver-dto';
 
-export async function createDriver(
+export async function createBlog(
   app: Express,
   driverDto?: BlogsInputDto,
 ): Promise<Blogs> {
