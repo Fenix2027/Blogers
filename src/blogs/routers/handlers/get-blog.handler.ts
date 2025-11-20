@@ -10,9 +10,7 @@ export function getBlogHandler(req: Request, res: Response) {
   if (!blog) {
     res
       .status(HttpStatus.NotFound)
-      .send(
-        createErrorMessages([{ field: 'id', message: 'Blog not found' }]),
-      );
+      .send(createErrorMessages([{ field: 'id', message: 'Blog not found' }]));
     return;
   }
 

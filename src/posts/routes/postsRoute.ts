@@ -6,7 +6,6 @@ import { postInputDtoValidation } from '../validation/post.input-dto.validation-
 import { createPostHandler } from './handlers/create-post.handler';
 import { getPostsListHandler } from './handlers/get-posts-list.handler';
 import { getPostHandler } from './handlers/get-post.handler';
-import { blogsInputDtoValidation } from '../../blogs/validation/driver.input-dto.validation-middlewares';
 import { updatePostHandler } from './handlers/update-post.handler';
 import { deletePostHandler } from './handlers/delete-post.handler';
 
@@ -32,7 +31,7 @@ postsRoute.put(
   '/:id',
   superAdminGuardMiddleware,
   idValidation,
-  blogsInputDtoValidation,
+  postInputDtoValidation,
   inputValidationResultMiddleware,
   updatePostHandler,
 );

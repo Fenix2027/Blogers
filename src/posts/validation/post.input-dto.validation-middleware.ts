@@ -2,9 +2,9 @@ import { body } from 'express-validator';
 
 export const titleValidation = body('title')
   .isString()
-  .withMessage('status should be string')
+  .withMessage('title should be string')
   .trim()
-  .isLength({ max: 30 });
+  .isLength({ min: 1, max: 30 });
 
 export const blogIdValidation = body('blogId')
   .isString()
@@ -15,13 +15,13 @@ export const shortDescriptionValidation = body('shortDescription')
   .isString()
   .withMessage('shortDescription should be string')
   .trim()
-  .isLength({ max: 100 });
+  .isLength({ min: 1, max: 100 });
 
 export const contentValidation = body('content')
   .isString()
   .withMessage('content should be string')
   .trim()
-  .isLength({ max: 1000 });
+  .isLength({ min: 1, max: 1000 });
 
 export const postInputDtoValidation = [
   titleValidation,

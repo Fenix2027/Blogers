@@ -4,14 +4,14 @@ const nameValidation = body('name')
   .isString()
   .withMessage('name should be string')
   .trim()
-  .isLength({ max: 15 })
+  .isLength({ min: 1, max: 15 })
   .withMessage('Length of name is not correct');
 
 const descriptionValidation = body('description')
   .isString()
   .withMessage('description should be string')
   .trim()
-  .isLength({ max: 500 })
+  .isLength({ min: 1, max: 500 })
   .withMessage('Length of description is not correct');
 
 const websiteUrlValidation = body('websiteUrl')
