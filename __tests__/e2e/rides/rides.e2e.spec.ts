@@ -18,11 +18,11 @@ describe('Rides API', () => {
     await clearDb(app);
   });
 
-  it('✅ should create ride; POST /api/rides', async () => {
+  it('✅ should create ride; POST /api/posts', async () => {
     await createRide(app);
   });
 
-  it('✅ should return rides list; GET /api/rides', async () => {
+  it('✅ should return posts list; GET /api/posts', async () => {
     await createRide(app);
 
     const rideListResponse = await request(app)
@@ -34,7 +34,7 @@ describe('Rides API', () => {
     expect(rideListResponse.body).toHaveLength(2);
   });
 
-  it('✅ should return ride by id; GET /api/rides/:id', async () => {
+  it('✅ should return ride by id; GET /api/posts/:id', async () => {
     const createdRide = await createRide(app);
 
     const getRide = await getRideById(app, createdRide.id);

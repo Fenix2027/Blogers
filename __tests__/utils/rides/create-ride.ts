@@ -2,9 +2,9 @@
 import request from 'supertest';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 import { Express } from 'express';
-import { PostInputDto } from '../../../src/rides/dto/post-input.dto';
+import { PostInputDto } from '../../../src/posts/dto/post-input.dto';
 import { createBlog } from '../drivers/create-blog';
-import { Post } from '../../../src/rides/types/post';
+import { Post } from '../../../src/posts/types/post';
 import { generateBasicAuthToken } from '../generate-admin-auth-token';
 import { POSTS_PATH } from '../../../src/core/paths/paths';
 import { getRideDto } from './get-ride-dto';

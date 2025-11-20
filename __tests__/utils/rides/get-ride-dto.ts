@@ -1,5 +1,5 @@
-import { PostInputDto } from '../../../src/rides/dto/post-input.dto';
-import { Currency } from '../../../src/rides/types/post';
+import { PostInputDto } from '../../../src/posts/dto/post-input.dto';
+import { Currency } from '../../../src/posts/types/post';
 
 export function getRideDto(driverId: number): PostInputDto {
   return {

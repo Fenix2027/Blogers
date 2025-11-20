@@ -7,7 +7,7 @@ import { generateBasicAuthToken } from '../../utils/generate-admin-auth-token';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 import { clearDb } from '../../utils/clear-db';
 import { POSTS_PATH } from '../../../src/core/paths/paths';
-import { Currency } from '../../../src/rides/types/post';
+import { Currency } from '../../../src/posts/types/post';
 
 describe('Rides API body validation check', () => {
   const app = express();

@@ -3,13 +3,7 @@ import { BlogsInputDto } from '../../../src/blogs/dto/blogs-input.dto';
 export function getDriverDto(): BlogsInputDto {
   return {
     name: 'Feodor',
-    phoneNumber: '987-654-3210',
-    email: 'feodor@example.com',
-    vehicleMake: 'Audi',
-    vehicleModel: 'A6',
-    vehicleYear: 2020,
-    vehicleLicensePlate: 'XYZ-456',
-    vehicleDescription: null,
-    vehicleFeatures: [],
+    description: '987-654-3210',
+    websiteUrl: 'feodor@example.com',
   };
 }

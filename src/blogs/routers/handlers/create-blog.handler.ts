@@ -10,7 +10,7 @@ export function createBlogHandler(
   res: Response,
 ) {
   const newBlog: Blogs = {
-    id: (db.blogs.length ? db.blogs[db.blogs.length - 1].id + 1 : 1) as string,
+    id: String(db.blogs.length ? db.blogs[db.blogs.length - 1].id + 1 : 1),
     name: req.body.name,
     description: req.body.description,
     websiteUrl: req.body.websiteUrl,
