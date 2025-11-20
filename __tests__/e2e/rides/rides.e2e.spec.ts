@@ -41,8 +41,7 @@ describe('Rides API', () => {
 
     expect(getRide).toEqual({
       ...createdRide,
-      id: expect.any(Number),
-      createdAt: expect.any(String),
+      id: expect.any(String),
     });
   });
 });

@@ -18,14 +18,12 @@ export function createPostHandler(
   if (!posts) {
     res
       .status(HttpStatus.BadRequest)
-      .send(
-        createErrorMessages([{ field: 'id', message: 'Post not found' }]),
-      );
+      .send(createErrorMessages([{ field: 'id', message: 'Post not found' }]));
 
     return;
   }
   const newPost: Post = {
-    id: (db.posts.length ? db.posts[db.posts.length - 1].id + 1 : 1) as string,
+    id: String(db.posts.length ? db.posts[db.posts.length - 1].id + 1 : 1),
     title: req.body.title,
     blogId: req.body.blogId,
     blogName: posts.name,
