@@ -1,5 +1,5 @@
 import { Blogs } from '../types/blogs';
-import { db } from '../../db/in-memory.db';
+import { db } from '../../db/mongo.db';
 import { BlogsInputDto } from '../dto/blogs-input.dto';
 
 export const blogsRepository = {

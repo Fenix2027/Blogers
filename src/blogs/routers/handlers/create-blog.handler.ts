@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { BlogsInputDto } from '../../dto/blogs-input.dto';
 import { HttpStatus } from '../../../core/types/http-statuses';
-import { db } from '../../../db/in-memory.db';
+import { db } from '../../../db/mongo.db';
 import { Blogs } from '../../types/blogs';
 import { blogsRepository } from '../../repositories/blogsRepository';
 

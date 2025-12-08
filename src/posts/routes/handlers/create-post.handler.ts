@@ -5,7 +5,7 @@ import { HttpStatus } from '../../../core/types/http-statuses';
 import { createErrorMessages } from '../../../core/middlewares/validation/input-validtion-result.middleware';
 import { postRepository } from '../../repositories/postRepository';
 import { Post } from '../../types/post';
-import { db } from '../../../db/in-memory.db';
+import { db } from '../../../db/mongo.db';
 
 export function createPostHandler(
   req: Request<{}, {}, PostInputDto>,

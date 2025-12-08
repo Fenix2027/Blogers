@@ -1,5 +1,5 @@
 import { Post } from '../types/post';
-import { db } from '../../db/in-memory.db';
+import { db } from '../../db/mongo.db';
 import { PostInputDto } from '../dto/post-input.dto';
 
 export const postRepository = {
