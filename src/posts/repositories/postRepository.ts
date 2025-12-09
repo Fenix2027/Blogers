@@ -1,43 +1,52 @@
 import { Post } from '../types/post';
-import { db } from '../../db/mongo.db';
+import { blogsCollection, postCollection } from '../../db/mongo.db';
 import { PostInputDto } from '../dto/post-input.dto';
+import { ObjectId, WithId } from 'mongodb';
 
 export const postRepository = {
-  findAll(): Post[] {
-    return db.posts;
+  async findAll(): Promise<WithId<Post>[]> {
+    return postCollection.find().toArray();
   },
 
-  findById(id: string): Post | null {
-    return db.posts.find((d) => d.id === id) ?? null;
+  async findById(id: string): Promise<WithId<Post> | null> {
+    return postCollection.findOne({ _id: new ObjectId(id) });
   },
 
-  createRide(newPost: Post): Post {
-    db.posts.push(newPost);
-
-    return newPost;
+  async create(newPost: Post): Promise<WithId<Post>> {
+    const insertResult = await postCollection.insertOne(newPost);
+    return { ...newPost, _id: insertResult.insertedId };
   },
-  update(id: string, dto: PostInputDto): void {
-    const post = db.posts.find((d) => d.id === id);
 
-    if (!post) {
-      throw new Error('Post not exist');
+  async update(id: string, dto: PostInputDto): Promise<void> {
+    const updateResult = await blogsCollection.updateOne(
+      {
+        _id: new ObjectId(id),
+      },
+      {
+        $set: {
+          title: dto.title,
+          shortDescription: dto.shortDescription,
+          content: dto.content,
+          blogId: dto.blogId,
+        },
+      },
+    );
+
+    if (updateResult.matchedCount < 1) {
+      throw new Error('Blog not exist');
     }
-
-    post.title = dto.title;
-    post.shortDescription = dto.shortDescription;
-    post.content = dto.content;
-    post.blogId = dto.blogId;
     return;
   },
 
-  delete(id: string): void {
-    const index = db.posts.findIndex((v) => v.id === id);
+  async delete(id: string): Promise<void> {
+    const deleteResult = await postCollection.deleteOne({
+      _id: new ObjectId(id),
+    });
 
-    if (index === -1) {
+    if (deleteResult.deletedCount < 1) {
       throw new Error('Blogs not exist');
     }
 
-    db.posts.splice(index, 1);
     return;
   },
 };
