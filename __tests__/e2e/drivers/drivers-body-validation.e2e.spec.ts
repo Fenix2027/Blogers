@@ -1,6 +1,6 @@
 import request from 'supertest';
 import express from 'express';
-import { VehicleFeature } from '../../../src/blogs/types/blogs';
+import { VehicleFeature } from '../../../src/blogs/types/blog';
 import { setupApp } from '../../../src/setup-app';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 import { BlogsInputDto } from '../../../src/blogs/dto/blogs-input.dto';

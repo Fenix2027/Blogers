@@ -3,7 +3,8 @@ import { HttpStatus } from '../../../core/types/http-statuses';
 import { createErrorMessages } from '../../../core/utils/error.utils';
 import { blogsRepository } from '../../repositories/blogsRepository';
 
-export function deleteBlogHandler(req: Request, res: Response) {
+export async function deleteBlogHandler(req: Request, res: Response) {
+  try {
   const id = req.params.id;
   const blog = blogsRepository.findById(id);
 
@@ -14,6 +15,9 @@ export function deleteBlogHandler(req: Request, res: Response) {
     return;
   }
 
-  blogsRepository.delete(id);
+  await blogsRepository.delete(id);
   res.sendStatus(HttpStatus.NoContent);
+  } catch (e: unknown) {
+    res.sendStatus(HttpStatus.InternalServerError);
+  }
 }
