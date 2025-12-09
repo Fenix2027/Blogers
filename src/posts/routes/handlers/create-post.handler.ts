@@ -5,15 +5,15 @@ import { HttpStatus } from '../../../core/types/http-statuses';
 import { createErrorMessages } from '../../../core/middlewares/validation/input-validtion-result.middleware';
 import { postRepository } from '../../repositories/postRepository';
 import { Post } from '../../types/post';
-import { db } from '../../../db/mongo.db';
+import { mapToPostViewModelUtil } from '../mappers/map-to-post-view-model.util';
 
-export function createPostHandler(
+export async function createPostHandler(
   req: Request<{}, {}, PostInputDto>,
   res: Response,
 ) {
   const postId = req.body.blogId;
 
-  const posts = blogsRepository.findById(postId);
+  const posts = await blogsRepository.findById(postId);
 
   if (!posts) {
     res
@@ -22,16 +22,21 @@ export function createPostHandler(
 
     return;
   }
-  const newPost: Post = {
-    id: String(db.posts.length ? db.posts[db.posts.length - 1].id + 1 : 1),
-    title: req.body.title,
-    blogId: req.body.blogId,
-    blogName: posts.name,
-    shortDescription: req.body.shortDescription,
-    content: req.body.content,
-  };
+  try {
+    const newPost: Post = {
+      title: req.body.title,
+      blogId: req.body.blogId,
+      blogName: posts.name,
+      shortDescription: req.body.shortDescription,
+      content: req.body.content,
+      createdAt: String(new Date()),
+    };
 
-  postRepository.createRide(newPost);
+    const createdPost = await postRepository.create(newPost);
+    const rideViewModel = mapToPostViewModelUtil(createdPost);
 
-  res.status(HttpStatus.Created).send(newPost);
+    res.status(HttpStatus.Created).send(rideViewModel);
+  } catch (e: unknown) {
+    res.sendStatus(HttpStatus.InternalServerError);
+  }
 }

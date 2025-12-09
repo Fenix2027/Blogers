@@ -4,20 +4,26 @@ import { createErrorMessages } from '../../../core/utils/error.utils';
 import { PostInputDto } from '../../dto/post-input.dto';
 import { postRepository } from '../../repositories/postRepository';
 
-export function updatePostHandler(
+export async function updatePostHandler(
   req: Request<{ id: string }, {}, PostInputDto>,
   res: Response,
 ) {
-  const id = req.params.id;
-  const post = postRepository.findById(id);
+  try {
+    const id = req.params.id;
+    const post = postRepository.findById(id);
 
-  if (!post) {
-    res
-      .status(HttpStatus.NotFound)
-      .send(createErrorMessages([{ field: 'id', message: 'Post not found' }]));
-    return;
+    if (!post) {
+      res
+        .status(HttpStatus.NotFound)
+        .send(
+          createErrorMessages([{ field: 'id', message: 'Post not found' }]),
+        );
+      return;
+    }
+
+    await postRepository.update(id, req.body);
+    res.sendStatus(HttpStatus.NoContent);
+  } catch (e: unknown) {
+    res.sendStatus(HttpStatus.InternalServerError);
   }
-
-  postRepository.update(id, req.body);
-  res.sendStatus(HttpStatus.NoContent);
 }
