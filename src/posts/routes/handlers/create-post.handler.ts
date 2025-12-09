@@ -23,13 +23,14 @@ export async function createPostHandler(
     return;
   }
   try {
+    const d = new Date();
     const newPost: Post = {
       title: req.body.title,
       blogId: req.body.blogId,
       blogName: posts.name,
       shortDescription: req.body.shortDescription,
       content: req.body.content,
-      createdAt: String(new Date()),
+      createdAt: d.toISOString(),
     };
 
     const createdPost = await postRepository.create(newPost);

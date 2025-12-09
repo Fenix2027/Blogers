@@ -10,7 +10,7 @@ export async function updateBlogHandler(
 ) {
   try {
     const id = req.params.id;
-    const blog = blogsRepository.findById(id);
+    const blog = await blogsRepository.findById(id);
 
     if (!blog) {
       res

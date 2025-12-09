@@ -18,7 +18,7 @@ export const postRepository = {
   },
 
   async update(id: string, dto: PostInputDto): Promise<void> {
-    const updateResult = await blogsCollection.updateOne(
+    const updateResult = await postCollection.updateOne(
       {
         _id: new ObjectId(id),
       },

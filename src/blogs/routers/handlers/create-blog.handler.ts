@@ -5,16 +5,18 @@ import { Blog } from '../../types/blog';
 import { blogsRepository } from '../../repositories/blogsRepository';
 import { mapToBlogsViewModel } from '../mappers/map-to-blogs-view-model.util';
 
+
 export async function createBlogHandler(
   req: Request<{}, {}, BlogsInputDto>,
   res: Response,
 ) {
   try {
+    const d = new Date();
     const newBlog: Blog = {
       name: req.body.name,
       description: req.body.description,
       websiteUrl: req.body.websiteUrl,
-      createdAt: String(new Date()),
+      createdAt: d.toISOString(),
       isMembership: false,
   };
     const createdBlog =  await blogsRepository.create(newBlog);

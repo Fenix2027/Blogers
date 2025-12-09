@@ -6,7 +6,7 @@ import { blogsRepository } from '../../repositories/blogsRepository';
 export async function deleteBlogHandler(req: Request, res: Response) {
   try {
   const id = req.params.id;
-  const blog = blogsRepository.findById(id);
+  const blog = await blogsRepository.findById(id);
 
   if (!blog) {
     res
