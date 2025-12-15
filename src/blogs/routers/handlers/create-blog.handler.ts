@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { BlogsInputDto } from '../../dto/blogs-input.dto';
+import { BlogsInputDto } from '../../application/dtos/blogs-input.dto';
 import { HttpStatus } from '../../../core/types/http-statuses';
-import { Blog } from '../../types/blog';
+import { Blog } from '../../domain/blog';
 import { blogsRepository } from '../../repositories/blogsRepository';
 import { mapToBlogsViewModel } from '../mappers/map-to-blogs-view-model.util';
 

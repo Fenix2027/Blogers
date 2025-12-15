@@ -1,4 +1,4 @@
-import { BlogsInputDto } from '../../../src/blogs/dto/blogs-input.dto';
+import { BlogsInputDto } from '../../../src/blogs/application/dtos/blogs-input.dto';
 
 export function getDriverDto(): BlogsInputDto {
   return {

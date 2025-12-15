@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { BlogsInputDto } from '../../../src/blogs/dto/blogs-input.dto';
+import { BlogsInputDto } from '../../../src/blogs/application/dtos/blogs-input.dto';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 import { getDriverDto } from './get-driver-dto';
 import { BLOGS_PATH } from '../../../src/core/paths/paths';

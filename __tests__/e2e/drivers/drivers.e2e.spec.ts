@@ -2,7 +2,7 @@ import request from 'supertest';
 import express from 'express';
 import { setupApp } from '../../../src/setup-app';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
-import { BlogsInputDto } from '../../../src/blogs/dto/blogs-input.dto';
+import { BlogsInputDto } from '../../../src/blogs/application/dtos/blogs-input.dto';
 import { BLOGS_PATH } from '../../../src/core/paths/paths';
 import { getDriverDto } from '../../utils/drivers/get-driver-dto';
 import { generateBasicAuthToken } from '../../utils/generate-admin-auth-token';
