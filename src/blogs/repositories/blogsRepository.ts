@@ -1,11 +1,43 @@
 import { Blog } from '../domain/blog';
 import { blogsCollection } from '../../db/mongo.db';
 import { ObjectId, WithId } from 'mongodb';
-import { BlogsInputDto } from '../application/dtos/blogs-input.dto';
+import { BlogsAttributes } from '../application/dtos/blogs.attributes';
+import { BlogQueryInput } from '../routers/input/blog-query.input';
 
 export const blogsRepository = {
-  async findAll(): Promise<WithId<Blog>[]> {
-    return blogsCollection.find().toArray();
+  async findMany(
+    queryDto: BlogQueryInput,
+  ): Promise<{ items: WithId<Blog>[]; totalCount: number }> {
+    const {
+      pageNumber,
+      pageSize,
+      sortBy,
+      sortDirection,
+      searchBlogNameTerm,
+      searchBlogCreatedAtTerm,
+    } = queryDto;
+
+    const skip = (pageNumber - 1) * pageSize;
+    const filter: any = {};
+
+    if (searchBlogNameTerm) {
+      filter.name = { $regex: searchBlogNameTerm, $options: 'i' };
+    }
+
+    if (searchBlogCreatedAtTerm) {
+      filter.createdAt = { $regex: searchBlogCreatedAtTerm, $options: 'i' };
+    }
+
+    const items = await blogsCollection
+      .find(filter)
+      .sort({ [sortBy]: sortDirection })
+      .skip(skip)
+      .limit(pageSize)
+      .toArray();
+
+    const totalCount = await blogsCollection.countDocuments(filter);
+
+    return { items, totalCount };
   },
 
   async findById(id: string): Promise<WithId<Blog> | null> {
@@ -17,7 +49,7 @@ export const blogsRepository = {
     return { ...newBlog, _id: insertResult.insertedId };
   },
 
-  async update(id: string, dto: BlogsInputDto): Promise<void> {
+  async update(id: string, dto: BlogsAttributes): Promise<void> {
     const updateResult = await blogsCollection.updateOne(
       {
         _id: new ObjectId(id),

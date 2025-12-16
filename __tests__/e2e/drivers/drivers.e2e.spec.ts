@@ -2,7 +2,7 @@ import request from 'supertest';
 import express from 'express';
 import { setupApp } from '../../../src/setup-app';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
-import { BlogsInputDto } from '../../../src/blogs/application/dtos/blogs-input.dto';
+import { BlogsAttributes } from '../../../src/blogs/application/dtos/blogs.attributes';
 import { BLOGS_PATH } from '../../../src/core/paths/paths';
 import { getDriverDto } from '../../utils/drivers/get-driver-dto';
 import { generateBasicAuthToken } from '../../utils/generate-admin-auth-token';
@@ -22,7 +22,7 @@ describe('Driver API', () => {
   });
 
   it('✅ should create driver; POST /api/blogs', async () => {
-    const newBlog: BlogsInputDto = {
+    const newBlog: BlogsAttributes = {
       ...getDriverDto(),
       name: 'Feodor',
       websiteUrl: 'feodor@example.com',
@@ -59,7 +59,7 @@ describe('Driver API', () => {
   it('✅ should update driver; PUT /api/blogs/:id', async () => {
     const createdBlog = await createBlog(app);
 
-    const blogUpdateData: BlogsInputDto = {
+    const blogUpdateData: BlogsAttributes = {
       name: 'Updated Name',
       description: '999-888-7777',
       websiteUrl: 'updated@example.com',

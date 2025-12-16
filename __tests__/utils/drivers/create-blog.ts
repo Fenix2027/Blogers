@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { BlogsInputDto } from '../../../src/blogs/application/dtos/blogs-input.dto';
+import { BlogsAttributes } from '../../../src/blogs/application/dtos/blogs.attributes';
 import { Express } from 'express';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 import { generateBasicAuthToken } from '../generate-admin-auth-token';
@@ -9,9 +9,9 @@ import { getDriverDto } from './get-driver-dto';
 
 export async function createBlog(
   app: Express,
-  driverDto?: BlogsInputDto,
+  driverDto?: BlogsAttributes,
 ): Promise<Blog> {
-  const defaultDriverData: BlogsInputDto = getDriverDto();
+  const defaultDriverData: BlogsAttributes = getDriverDto();
 
   const testDriverData = { ...defaultDriverData, ...driverDto };
 

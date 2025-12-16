@@ -3,7 +3,7 @@ import express from 'express';
 import { VehicleFeature } from '../../../src/blogs/domain/blog';
 import { setupApp } from '../../../src/setup-app';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
-import { BlogsInputDto } from '../../../src/blogs/application/dtos/blogs-input.dto';
+import { BlogsAttributes } from '../../../src/blogs/application/dtos/blogs.attributes';
 import { BLOGS_PATH } from '../../../src/core/paths/paths';
 import { generateBasicAuthToken } from '../../utils/generate-admin-auth-token';
 import { getDriverDto } from '../../utils/drivers/get-driver-dto';
@@ -15,7 +15,7 @@ describe('Driver API body validation check', () => {
   const app = express();
   setupApp(app);
 
-  const correctTestDriverData: BlogsInputDto = getDriverDto();
+  const correctTestDriverData: BlogsAttributes = getDriverDto();
 
   const adminToken = generateBasicAuthToken();
 

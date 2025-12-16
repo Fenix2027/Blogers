@@ -1,6 +1,6 @@
-import { BlogsInputDto } from '../../../src/blogs/application/dtos/blogs-input.dto';
+import { BlogsAttributes } from '../../../src/blogs/application/dtos/blogs.attributes';
 
-export function getDriverDto(): BlogsInputDto {
+export function getDriverDto(): BlogsAttributes {
   return {
     name: 'Feodor',
     description: '987-654-3210',

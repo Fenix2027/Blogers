@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { BlogsInputDto } from '../../application/dtos/blogs-input.dto';
+import { BlogsAttributes } from '../../application/dtos/blogs.attributes';
 import { HttpStatus } from '../../../core/types/http-statuses';
 import { createErrorMessages } from '../../../core/utils/error.utils';
 import { blogsRepository } from '../../repositories/blogsRepository';
 
 export async function updateBlogHandler(
-  req: Request<{ id: string }, {}, BlogsInputDto>,
+  req: Request<{ id: string }, {}, BlogsAttributes>,
   res: Response,
 ) {
   try {

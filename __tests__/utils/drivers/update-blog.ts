@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { BlogsInputDto } from '../../../src/blogs/application/dtos/blogs-input.dto';
+import { BlogsAttributes } from '../../../src/blogs/application/dtos/blogs.attributes';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 import { getDriverDto } from './get-driver-dto';
 import { BLOGS_PATH } from '../../../src/core/paths/paths';
@@ -9,9 +9,9 @@ import e = require('express');
 export async function updateBlog(
   app: e.Express,
   driverId: string,
-  driverDto?: BlogsInputDto,
+  driverDto?: BlogsAttributes,
 ): Promise<void> {
-  const defaultDriverData: BlogsInputDto = getDriverDto();
+  const defaultDriverData: BlogsAttributes = getDriverDto();
 
   const testDriverData = { ...defaultDriverData, ...driverDto };
 
