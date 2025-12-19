@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import { HttpStatus } from '../../../core/types/http-statuses';
 import { createErrorMessages } from '../../../core/utils/error.utils';
-import { PostInputDto } from '../../dto/post-input.dto';
+import { PostAttributes } from '../../application/dtos/post-attributes';
 import { postRepository } from '../../repositories/postRepository';
 
 export async function updatePostHandler(
-  req: Request<{ id: string }, {}, PostInputDto>,
+  req: Request<{ id: string }, {}, PostAttributes>,
   res: Response,
 ) {
   try {

@@ -1,6 +1,6 @@
 // @ts-ignore
 import request from 'supertest';
-import { Post } from '../../../src/posts/types/post';
+import { Post } from '../../../src/posts/domain/post';
 import e from 'express';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 import { POSTS_PATH } from '../../../src/core/paths/paths';

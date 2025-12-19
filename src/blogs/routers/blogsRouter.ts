@@ -6,13 +6,22 @@ import { updateBlogHandler } from './handlers/update-blog.handler';
 import { deleteBlogHandler } from './handlers/delete-blog.handler';
 import { idValidation } from '../../core/middlewares/validation/params-id.validation-middleware';
 import { inputValidationResultMiddleware } from '../../core/middlewares/validation/input-validtion-result.middleware';
-import { blogsInputDtoValidation } from '../validation/driver.input-dto.validation-middlewares';
+import { blogsInputDtoValidation } from '../validation/blog.input-dto.validation-middlewares';
 import { superAdminGuardMiddleware } from '../../auth/middlewares/super-admin.guard-middleware';
+import {
+  paginationAndSortingValidation
+} from '../../core/middlewares/validation/query-pagination-sorting.validation-middleware';
+import { BlogSortField } from './input/blog-sort-field';
+import { getBlogPostsListHandler } from './handlers/get-driver-ride-list.handler';
 
 export const blogsRouter = Router({});
 
 blogsRouter
-  .get('', getBlogListHandler)
+  .get(
+    '',
+    paginationAndSortingValidation(BlogSortField),
+    inputValidationResultMiddleware,
+    getBlogListHandler)
 
   .get('/:id', idValidation, inputValidationResultMiddleware, getBlogHandler)
 
@@ -39,4 +48,11 @@ blogsRouter
     idValidation,
     inputValidationResultMiddleware,
     deleteBlogHandler,
+  )
+  .get(
+    '/:id/rides',
+    idValidation,
+    paginationAndSortingValidation(PostSortField),
+    inputValidationResultMiddleware,
+    getBlogPostsListHandler,
   );

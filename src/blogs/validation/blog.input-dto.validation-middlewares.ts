@@ -1,4 +1,6 @@
 import { body } from 'express-validator';
+import { resourceTypeValidation } from '../../core/middlewares/validation/resource-type.validation-middleware';
+import { ResourceType } from '../../core/types/resource-type';
 
 const nameValidation = body('name')
   .isString()
@@ -23,6 +25,7 @@ const websiteUrlValidation = body('websiteUrl')
   .isURL();
 
 export const blogsInputDtoValidation = [
+  resourceTypeValidation(ResourceType.Blogs),
   nameValidation,
   descriptionValidation,
   websiteUrlValidation,

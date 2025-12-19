@@ -1,30 +1,23 @@
 import { Request, Response } from 'express';
-import { BlogsAttributes } from '../../application/dtos/blogs.attributes';
 import { HttpStatus } from '../../../core/types/http-statuses';
-import { Blog } from '../../domain/blog';
-import { blogsRepository } from '../../repositories/blogsRepository';
-import { mapToBlogsViewModel } from '../mappers/map-to-blogs-view-model.util';
-
+import { mapToBlogsOutput } from '../mappers/map-to-blog-output.util';
+import { BlogCreateInput } from '../input/blog-create.input';
+import { blogsService } from '../../application/blogs.servises';
+import { errorsHandler } from '../../../core/errors/error.handler';
 
 export async function createBlogHandler(
-  req: Request<{}, {}, BlogsAttributes>,
+  req: Request<{}, {}, BlogCreateInput>,
   res: Response,
 ) {
   try {
-    const d = new Date();
-    const newBlog: Blog = {
-      name: req.body.name,
-      description: req.body.description,
-      websiteUrl: req.body.websiteUrl,
-      createdAt: d.toISOString(),
-      isMembership: false,
-  };
-    const createdBlog =  await blogsRepository.create(newBlog);
-    const blogViewModel = mapToBlogsViewModel(createdBlog);
-    res.status(HttpStatus.Created).send(blogViewModel);
+    const createdBlogId = await blogsService.create(req.body.data.attributes);
 
-} catch (e: unknown) {
-    res.sendStatus(HttpStatus.InternalServerError);
+    const createdBlog = await blogsService.findByIdOrFail(createdBlogId);
+
+    const blogViewModel = mapToBlogsOutput(createdBlog);
+
+    res.status(HttpStatus.Created).send(blogViewModel);
+  } catch (e: unknown) {
+    errorsHandler(e, res);
   }
 }
-

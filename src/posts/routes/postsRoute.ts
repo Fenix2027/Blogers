@@ -8,10 +8,17 @@ import { getPostsListHandler } from './handlers/get-posts-list.handler';
 import { getPostHandler } from './handlers/get-post.handler';
 import { updatePostHandler } from './handlers/update-post.handler';
 import { deletePostHandler } from './handlers/delete-post.handler';
+import {
+  paginationAndSortingValidation
+} from '../../core/middlewares/validation/query-pagination-sorting.validation-middleware';
+import { PostSortField } from './input/post-sort-field';
 
 export const postsRoute = Router({});
 
-postsRoute.get('', getPostsListHandler);
+postsRoute.get('',
+  paginationAndSortingValidation(PostSortField),
+  inputValidationResultMiddleware,
+  getPostsListHandler);
 
 postsRoute.get(
   '/:id',

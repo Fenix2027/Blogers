@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
-import { PostInputDto } from '../../dto/post-input.dto';
+import { PostAttributes } from '../../application/dtos/post-attributes';
 import { blogsRepository } from '../../../blogs/repositories/blogsRepository';
 import { HttpStatus } from '../../../core/types/http-statuses';
 import { createErrorMessages } from '../../../core/middlewares/validation/input-validtion-result.middleware';
 import { postRepository } from '../../repositories/postRepository';
-import { Post } from '../../types/post';
-import { mapToPostViewModelUtil } from '../mappers/map-to-post-view-model.util';
+import { Post } from '../../domain/post';
+import { mapToPostOutputUtil } from '../mappers/mapToPostOutputUtil';
 
 export async function createPostHandler(
-  req: Request<{}, {}, PostInputDto>,
+  req: Request<{}, {}, PostAttributes>,
   res: Response,
 ) {
   const postId = req.body.blogId;
@@ -34,7 +34,7 @@ export async function createPostHandler(
     };
 
     const createdPost = await postRepository.create(newPost);
-    const rideViewModel = mapToPostViewModelUtil(createdPost);
+    const rideViewModel = mapToPostOutputUtil(createdPost);
 
     res.status(HttpStatus.Created).send(rideViewModel);
   } catch (e: unknown) {

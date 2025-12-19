@@ -3,6 +3,7 @@ import { blogsCollection } from '../../db/mongo.db';
 import { ObjectId, WithId } from 'mongodb';
 import { BlogsAttributes } from '../application/dtos/blogs.attributes';
 import { BlogQueryInput } from '../routers/input/blog-query.input';
+import { RepositoryNotFoundError } from '../../core/errors/repository-not-found.error';
 
 export const blogsRepository = {
   async findMany(
@@ -44,9 +45,19 @@ export const blogsRepository = {
     return blogsCollection.findOne({ _id: new ObjectId(id) }); // Если результат поиска равно null или undefined, то вернем null.
   },
 
-  async create(newBlog: Blog): Promise<WithId<Blog>> {
+  async findByIdOrFail(id: string): Promise<WithId<Blog>> {
+    const res = await blogsCollection.findOne({ _id: new ObjectId(id) });
+
+    if (!res) {
+      throw new RepositoryNotFoundError('Blog not exist');
+    }
+    return res;
+  },
+
+  async create(newBlog: Blog): Promise<string> {
     const insertResult = await blogsCollection.insertOne(newBlog);
-    return { ...newBlog, _id: insertResult.insertedId };
+
+    return insertResult.insertedId.toString();
   },
 
   async update(id: string, dto: BlogsAttributes): Promise<void> {

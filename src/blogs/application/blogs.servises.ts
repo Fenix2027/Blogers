@@ -1,15 +1,12 @@
 import { blogsRepository } from '../repositories/blogsRepository';
 import { WithId } from 'mongodb';
 import { Blog } from '../domain/blog';
-import { postRepository } from '../../posts/repositories/postRepository';
-import { DomainError } from '../../core/errors/domain.error';
 import { BlogsAttributes } from './dtos/blogs.attributes';
-import { DriverQueryInput } from '../routes/input/driver-query.input';
+import { BlogQueryInput } from '../routers/input/blog-query.input';
 
-
-export const BlogsService = {
+export const blogsService = {
   async findMany(
-    queryDto: DriverQueryInput,
+    queryDto: BlogQueryInput,
   ): Promise<{ items: WithId<Blog>[]; totalCount: number }> {
     return blogsRepository.findMany(queryDto);
   },
@@ -17,7 +14,6 @@ export const BlogsService = {
   async findByIdOrFail(id: string): Promise<WithId<Blog>> {
     return blogsRepository.findByIdOrFail(id);
   },
-
 
   async create(dto: BlogsAttributes): Promise<string> {
     const x = new Date();
@@ -38,15 +34,6 @@ export const BlogsService = {
   },
 
   async delete(id: string): Promise<void> {
-    const activeRide = await postRepository.findActiveRideByDriverId(id);
-
-    if (activeRide) {
-      throw new DomainError(
-        `Driver has an active ride. Complete or cancel the ride first`,
-        DriverErrorCode.HasActiveRide,
-      );
-    }
-
     await blogsRepository.delete(id);
     return;
   },

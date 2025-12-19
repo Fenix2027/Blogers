@@ -1,6 +1,6 @@
-import { PostInputDto } from '../../../src/posts/dto/post-input.dto';
+import { PostAttributes } from '../../../src/posts/application/dtos/post-attributes';
 
-export function getRideDto(blogId: string): PostInputDto {
+export function getRideDto(blogId: string): PostAttributes {
   return {
     content: '',
     blogId,

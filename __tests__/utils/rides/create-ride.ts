@@ -2,16 +2,16 @@
 import request from 'supertest';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 import { Express } from 'express';
-import { PostInputDto } from '../../../src/posts/dto/post-input.dto';
+import { PostAttributes } from '../../../src/posts/application/dtos/post-attributes';
 import { createBlog } from '../drivers/create-blog';
-import { Post } from '../../../src/posts/types/post';
+import { Post } from '../../../src/posts/domain/post';
 import { generateBasicAuthToken } from '../generate-admin-auth-token';
 import { POSTS_PATH } from '../../../src/core/paths/paths';
 import { getRideDto } from './get-ride-dto';
 
 export async function createRide(
   app: Express,
-  rideDto?: PostInputDto,
+  rideDto?: PostAttributes,
 ): Promise<Post> {
   const driver = await createBlog(app);
 
