@@ -6,13 +6,13 @@ import { PostCreateInput } from '../../../posts/routes/input/post-create.input';
 import { HttpStatus } from '../../../core/types/http-statuses';
 
 export async function createBlogPostsListHandler(
-  req: Request<{}, {}, PostCreateInput>,
+  req: Request<{id: string}, {}, PostCreateInput>,
   res: Response,
 ) {
   try {
-    const createdPostId = await postsService.create(req.body.data.attributes);
+    const blogId = req.params.id;
 
-    const createdPost = await postsService.findByIdOrFail(createdPostId);
+    const createdPost = await postsService.findByIdOrFail(blogId);
 
     const postOutput = mapToPostOutputUtil(createdPost);
 

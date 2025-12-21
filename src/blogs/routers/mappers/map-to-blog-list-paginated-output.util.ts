@@ -1,8 +1,8 @@
 import { WithId } from 'mongodb';
 import { Blog } from '../../domain/blog';
 import { ResourceType } from '../../../core/types/resource-type';
-import { BlogDataOutput } from '../../output/blog-data.output';
-import { BlogListPaginatedOutput } from '../../output/blog-list-paginated.output';
+import { BlogDataOutput } from '../output/blog-data.output';
+import { BlogListPaginatedOutput } from '../output/blog-list-paginated.output';
 
 export function mapToBlogListPaginatedOutput(
   blogs: WithId<Blog>[],

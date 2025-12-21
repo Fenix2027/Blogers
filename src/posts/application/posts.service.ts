@@ -34,11 +34,11 @@ export const postsService = {
 
   async findPostsByBlog(
     queryDto: PostQueryInput,
-    driverId: string,
+    blogId: string,
   ): Promise<{ items: WithId<Post>[]; totalCount: number }> {
-    await blogsRepository.findByIdOrFail(driverId);
+    await blogsRepository.findByIdOrFail(blogId);
 
-    return postRepository.findPostsByBlog(queryDto, driverId);
+    return postRepository.findPostsByBlog(queryDto, blogId);
   },
 
   async update(id: string, dto: PostAttributes): Promise<void> {
