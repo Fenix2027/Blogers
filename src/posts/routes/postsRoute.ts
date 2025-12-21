@@ -4,21 +4,21 @@ import { superAdminGuardMiddleware } from '../../auth/middlewares/super-admin.gu
 import { idValidation } from '../../core/middlewares/validation/params-id.validation-middleware';
 import { postInputDtoValidation } from '../validation/post.input-dto.validation-middleware';
 import { createPostHandler } from './handlers/create-post.handler';
-import { getPostsListHandler } from './handlers/get-posts-list.handler';
+import { getPostListHandler } from './handlers/get-posts-list.handler';
 import { getPostHandler } from './handlers/get-post.handler';
 import { updatePostHandler } from './handlers/update-post.handler';
 import { deletePostHandler } from './handlers/delete-post.handler';
-import {
-  paginationAndSortingValidation
-} from '../../core/middlewares/validation/query-pagination-sorting.validation-middleware';
+import { paginationAndSortingValidation } from '../../core/middlewares/validation/query-pagination-sorting.validation-middleware';
 import { PostSortField } from './input/post-sort-field';
 
 export const postsRoute = Router({});
 
-postsRoute.get('',
+postsRoute.get(
+  '',
   paginationAndSortingValidation(PostSortField),
   inputValidationResultMiddleware,
-  getPostsListHandler);
+  getPostListHandler,
+);
 
 postsRoute.get(
   '/:id',

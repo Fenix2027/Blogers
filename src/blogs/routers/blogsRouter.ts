@@ -12,7 +12,9 @@ import {
   paginationAndSortingValidation
 } from '../../core/middlewares/validation/query-pagination-sorting.validation-middleware';
 import { BlogSortField } from './input/blog-sort-field';
-import { getBlogPostsListHandler } from './handlers/get-driver-ride-list.handler';
+import { getBlogPostsListHandler } from './handlers/get-blog-post-list.handler';
+import { PostSortField } from '../../posts/routes/input/post-sort-field';
+import { createBlogPostsListHandler } from './handlers/create-blog-post-list.handler';
 
 export const blogsRouter = Router({});
 
@@ -50,9 +52,17 @@ blogsRouter
     deleteBlogHandler,
   )
   .get(
-    '/:id/rides',
+    '/:id/posts',
     idValidation,
     paginationAndSortingValidation(PostSortField),
     inputValidationResultMiddleware,
     getBlogPostsListHandler,
-  );
+  )
+  .post(
+    '/:id/posts',
+    idValidation,
+    paginationAndSortingValidation(PostSortField),
+    inputValidationResultMiddleware,
+    createBlogPostsListHandler,
+);
+

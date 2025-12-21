@@ -1,12 +1,11 @@
 import { Request, Response } from 'express';
+import { errorsHandler } from '../../../core/errors/error.handler';
+import { postsService } from '../../../posts/application/posts.service';
+import { mapToPostOutputUtil } from '../../../posts/routes/mappers/mapToPostOutputUtil';
+import { PostCreateInput } from '../../../posts/routes/input/post-create.input';
 import { HttpStatus } from '../../../core/types/http-statuses';
 
-import { PostCreateInput } from '../input/post-create.input';
-import { postsService } from '../../application/posts.service';
-import { mapToPostOutputUtil } from '../mappers/mapToPostOutputUtil';
-import { errorsHandler } from '../../../core/errors/error.handler';
-
-export async function createPostHandler(
+export async function createBlogPostsListHandler(
   req: Request<{}, {}, PostCreateInput>,
   res: Response,
 ) {
