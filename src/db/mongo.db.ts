@@ -1,38 +1,52 @@
-import { Collection, Db, MongoClient } from 'mongodb';
+import { Collection, MongoClient, Db } from 'mongodb';
 import { Blog } from '../blogs/domain/blog';
 import { Post } from '../posts/domain/post';
 import { SETTINGS } from '../core/settings/settings';
+import { IUserDB } from '../users/types/user.db.interface';
 
-const BLOGS_COLLECTION_NAME = 'blogs';
-const POST_COLLECTION_NAME = 'posts';
-
+// 1. Экспортируем пустые переменные, которые импортируют ваши репозитории
 export let client: MongoClient;
+export let dbInstance: Db; // Переименовал, чтобы не путать с объектом
 export let blogsCollection: Collection<Blog>;
 export let postCollection: Collection<Post>;
+export let usersCollection: Collection<IUserDB>;
 
-// Подключения к бд
-export async function runDB(url: string): Promise<void> {
-  client = new MongoClient(url);
-  const db: Db = client.db(SETTINGS.DB_NAME);
+// 2. Объект для управления (для bootstrap и тестов)
+export const db = {
+  async run(url: string) {
+    try {
+      client = new MongoClient(url);
+      await client.connect();
 
-  // Инициализация коллекций
-  blogsCollection = db.collection<Blog>(BLOGS_COLLECTION_NAME);
-  postCollection = db.collection<Post>(POST_COLLECTION_NAME);
+      // Инициализируем БД
+      dbInstance = client.db(SETTINGS.DB_NAME);
 
-  try {
-    await client.connect();
-    await db.command({ ping: 1 });
-    console.log('✅ Connected to the database');
-  } catch (e) {
+      // 3. ЗАПОЛНЯЕМ экспортированные переменные коллекциями
+      blogsCollection = dbInstance.collection<Blog>('blogs');
+      postCollection = dbInstance.collection<Post>('posts');
+      usersCollection = dbInstance.collection<IUserDB>('users');
+
+      await dbInstance.command({ ping: 1 });
+      console.log('✅ Connected successfully to mongo server');
+    } catch (e: unknown) {
+      console.error("❌ Can't connect to mongo server", e);
+      await client.close();
+    }
+  },
+
+  async stop() {
     await client.close();
-    throw new Error(`❌ Database not connected: ${e}`);
-  }
-}
+    console.log('Connection closed');
+  },
 
-// для тестов
-export async function stopDb() {
-  if (!client) {
-    throw new Error(`❌ No active client`);
+  async drop() {
+    // Используем dbInstance, который уже инициализирован в run()
+    const collections = await dbInstance.listCollections().toArray();
+    for (const collection of collections) {
+      await dbInstance.collection(collection.name).deleteMany({});
+    }
   }
-  await client.close();
-}
+};
+
+// Чтобы работал старый код, где импортировали runDB
+export const runDB = db.run;

@@ -9,34 +9,33 @@ export const blogsRepository = {
   async findMany(
     queryDto: BlogQueryInput,
   ): Promise<{ items: WithId<Blog>[]; totalCount: number }> {
-    const {
-      pageNumber,
-      pageSize,
-      sortBy,
-      sortDirection,
-      searchBlogNameTerm,
-      searchBlogCreatedAtTerm,
-    } = queryDto;
+    const { pageNumber, pageSize, sortBy, sortDirection, searchNameTerm } =
+      queryDto;
 
     const skip = (pageNumber - 1) * pageSize;
     const filter: any = {};
 
-    if (searchBlogNameTerm) {
-      filter.name = { $regex: searchBlogNameTerm, $options: 'i' };
+    if (searchNameTerm) {
+      const orConditions = [];
+
+      orConditions.push({ name: { $regex: searchNameTerm, $options: 'i' } });
+
+      if (orConditions.length > 0) {
+        filter.$or = orConditions;
+      }
     }
 
-    if (searchBlogCreatedAtTerm) {
-      filter.createdAt = { $regex: searchBlogCreatedAtTerm, $options: 'i' };
-    }
+    const mongoSortDirection = sortDirection === 'asc' ? 1 : -1;
 
-    const items = await blogsCollection
-      .find(filter)
-      .sort({ [sortBy]: sortDirection })
-      .skip(skip)
-      .limit(pageSize)
-      .toArray();
-
-    const totalCount = await blogsCollection.countDocuments(filter);
+    const [items, totalCount] = await Promise.all([
+      blogsCollection
+        .find(filter)
+        .sort({ [sortBy]: mongoSortDirection })
+        .skip(skip)
+        .limit(pageSize)
+        .toArray(),
+      blogsCollection.countDocuments(filter),
+    ]);
 
     return { items, totalCount };
   },

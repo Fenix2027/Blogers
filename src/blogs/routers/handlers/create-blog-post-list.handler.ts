@@ -2,17 +2,19 @@ import { Request, Response } from 'express';
 import { errorsHandler } from '../../../core/errors/error.handler';
 import { postsService } from '../../../posts/application/posts.service';
 import { mapToPostOutputUtil } from '../../../posts/routes/mappers/mapToPostOutputUtil';
-import { PostCreateInput } from '../../../posts/routes/input/post-create.input';
 import { HttpStatus } from '../../../core/types/http-statuses';
+import { PostAttributes } from '../../../posts/application/dtos/post-attributes';
 
 export async function createBlogPostsListHandler(
-  req: Request<{id: string}, {}, PostCreateInput>,
+  req: Request<{ id: string }, {}, PostAttributes>,
   res: Response,
 ) {
   try {
-    const blogId = req.params.id;
+    const id = req.params.id;
 
-    const createdPost = await postsService.findByIdOrFail(blogId);
+    const createdPostId = await postsService.createPost(req.body, id);
+
+    const createdPost = await postsService.findByIdOrFail(createdPostId);
 
     const postOutput = mapToPostOutputUtil(createdPost);
 

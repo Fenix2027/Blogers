@@ -1,37 +1,26 @@
 import { Post } from '../domain/post';
 import { postCollection } from '../../db/mongo.db';
-import { PostAttributes } from '../application/dtos/post-attributes';
 import { ObjectId, WithId } from 'mongodb';
 import { PostQueryInput } from '../routes/input/post-query.input';
 import { RepositoryNotFoundError } from '../../core/errors/repository-not-found.error';
+import { PostUpdateInput } from '../routes/input/post-update.input';
 
 export const postRepository = {
   async findMany(
     queryDto: PostQueryInput,
   ): Promise<{ items: WithId<Post>[]; totalCount: number }> {
-    const {
-      pageNumber,
-      pageSize,
-      sortBy,
-      sortDirection,
-      searchPostCreatedAtTerm,
-    } = queryDto;
+    const { pageNumber, pageSize, sortBy, sortDirection } = queryDto;
 
     const skip = (pageNumber - 1) * pageSize;
-    const filter: any = {};
-
-    if (searchPostCreatedAtTerm) {
-      filter.createdAt = { $regex: searchPostCreatedAtTerm, $options: 'i' };
-    }
-
+    const mongoSortDirection = sortDirection === 'asc' ? 1 : -1;
     const [items, totalCount] = await Promise.all([
       postCollection
-        .find(filter)
-        .sort({ [sortBy]: sortDirection })
+        .find()
+        .sort({ [sortBy]: mongoSortDirection })
         .skip(skip)
         .limit(pageSize)
         .toArray(),
-      postCollection.countDocuments(filter),
+      postCollection.countDocuments(),
     ]);
     return { items, totalCount };
   },
@@ -58,7 +47,7 @@ export const postRepository = {
     blogId: string,
   ): Promise<{ items: WithId<Post>[]; totalCount: number }> {
     const { pageNumber, pageSize, sortBy, sortDirection } = queryDto;
-    const filter = { 'Blog.id': blogId };
+    const filter = { blogId: blogId };
     const skip = (pageNumber - 1) * pageSize;
 
     const [items, totalCount] = await Promise.all([
@@ -73,7 +62,7 @@ export const postRepository = {
     return { items, totalCount };
   },
 
-  async update(id: string, dto: PostAttributes): Promise<void> {
+  async update(id: string, dto: PostUpdateInput): Promise<void> {
     const updateResult = await postCollection.updateOne(
       {
         _id: new ObjectId(id),
@@ -83,7 +72,6 @@ export const postRepository = {
           title: dto.title,
           shortDescription: dto.shortDescription,
           content: dto.content,
-          blogId: dto.blogId,
         },
       },
     );

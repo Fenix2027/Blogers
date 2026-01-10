@@ -7,16 +7,15 @@ import { mapToBlogListPaginatedOutput } from '../mappers/map-to-blog-list-pagina
 import { errorsHandler } from '../../../core/errors/error.handler';
 
 export async function getBlogListHandler(
-  req: Request<{}, {}, {}, BlogQueryInput>,
+  req: Request<{}, {}, {}, any>,
   res: Response,
 ) {
   try {
-    const sanitizedQuery = matchedData<BlogQueryInput>(req, {
+    const sanitizedQuery = matchedData(req, {
       locations: ['query'],
       includeOptionals: true,
-    });
+    })as BlogQueryInput;
     const queryInput = setDefaultSortAndPaginationIfNotExist(sanitizedQuery);
-
     const { items, totalCount } = await blogsService.findMany(queryInput);
 
     const blogsListOutput = mapToBlogListPaginatedOutput(items, {
@@ -24,7 +23,8 @@ export async function getBlogListHandler(
       pageSize: queryInput.pageSize,
       totalCount,
     });
-    res.send(blogsListOutput);
+
+    res.status(200).json(blogsListOutput);
   } catch (e: unknown) {
     errorsHandler(e, res);
   }

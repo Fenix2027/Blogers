@@ -16,4 +16,7 @@ export const dataIdMatchValidation = body('data.id')
       throw new Error('ID in URL and body must match');
     }
     return true; // Если все хорошо, возвращаем true
-  });
+  })
+export const blogIdParamValidation = param('blogId')
+  .isMongoId()
+  .withMessage('Неверный формат ObjectId');

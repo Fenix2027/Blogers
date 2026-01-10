@@ -3,5 +3,4 @@ import { PostSortField } from './post-sort-field';
 
 export type PostQueryInput = PaginationAndSorting<PostSortField> &
   Partial<{
-    searchPostCreatedAtTerm: string;
   }>;

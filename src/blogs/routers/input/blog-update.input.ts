@@ -3,9 +3,8 @@ import { BlogsAttributes } from '../../application/dtos/blogs.attributes';
 
 
 export type BlogUpdateInput = {
-  data: {
-    type: ResourceType.Blogs;
     id: string;
-    attributes: BlogsAttributes;
-  };
+  name: string;
+  description: string;
+  websiteUrl: string;
 };

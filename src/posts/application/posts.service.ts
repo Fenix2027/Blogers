@@ -5,6 +5,8 @@ import { Post } from '../domain/post';
 import { PostAttributes } from './dtos/post-attributes';
 import { blogsCollection } from '../../db/mongo.db';
 import { blogsRepository } from '../../blogs/repositories/blogsRepository';
+import { PostUpdateInput } from '../routes/input/post-update.input';
+import { PaginationAndSorting } from '../../core/types/pagination-and-sorting';
 
 export const postsService = {
   async findMany(
@@ -17,16 +19,31 @@ export const postsService = {
     return postRepository.findByIdOrFail(id);
   },
 
-  async create(dto: PostAttributes): Promise<string> {
+  async createPost(dto: PostAttributes, id: any): Promise<string> {
+    const blog = await blogsRepository.findByIdOrFail(id);
     const x = new Date();
-    const blog = await blogsRepository.findByIdOrFail(dto.blogId);
     const newPost: Post = {
       title: dto.title,
       shortDescription: dto.shortDescription,
       content: dto.content,
       createdAt: x.toISOString(),
-      blogId: dto.blogId,
-      blogName: blog.name
+      blogId: blog._id.toString(),
+      blogName: blog.name,
+    };
+
+    return postRepository.create(newPost);
+  },
+
+  async create(dto: PostAttributes): Promise<string> {
+    const blog = await blogsRepository.findByIdOrFail(dto.blogId);
+    const x = new Date();
+    const newPost: Post = {
+      title: dto.title,
+      shortDescription: dto.shortDescription,
+      content: dto.content,
+      createdAt: x.toISOString(),
+      blogId: blog._id.toString(),
+      blogName: blog.name,
     };
 
     return postRepository.create(newPost);
@@ -34,14 +51,14 @@ export const postsService = {
 
   async findPostsByBlog(
     queryDto: PostQueryInput,
-    blogId: string,
+    id: string,
   ): Promise<{ items: WithId<Post>[]; totalCount: number }> {
-    await blogsRepository.findByIdOrFail(blogId);
+    await blogsRepository.findByIdOrFail(id);
 
-    return postRepository.findPostsByBlog(queryDto, blogId);
+    return postRepository.findPostsByBlog(queryDto, id);
   },
 
-  async update(id: string, dto: PostAttributes): Promise<void> {
+  async update(id: string, dto: PostUpdateInput): Promise<void> {
     await postRepository.update(id, dto);
     return;
   },

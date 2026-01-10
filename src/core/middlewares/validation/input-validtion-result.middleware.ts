@@ -1,48 +1,51 @@
+
+import { ValidationErrorType } from '../../types/validationError';
 import {
   FieldValidationError,
   ValidationError,
   validationResult,
 } from 'express-validator';
-import { NextFunction, Request, Response } from 'express';
-import { ValidationErrorType } from '../../types/validationError';
 import { HttpStatus } from '../../types/http-statuses';
-import { ValidationErrorListOutput } from '../../types/validationError.dto';
+import { Request, Response, NextFunction  } from 'express';
 
 export const createErrorMessages = (
   errors: ValidationErrorType[],
-): ValidationErrorListOutput => {
+): { errorsMessages: any[] } => {
   return {
-    errors: errors.map((error) => ({
-      status: error.status,
-      detail: error.detail, //error message
-      source: { pointer: error.source ?? '' }, //error field
-      code: error.code ?? null, //domain error code
+    errorsMessages: errors.map((error) => ({
+      message: error.message,
+      field: error.field ?? '',
     })),
   };
 };
 
 const formatValidationError = (error: ValidationError): ValidationErrorType => {
-  const expressError = error as unknown as FieldValidationError;
+
+  const expressError = error as FieldValidationError;
 
   return {
     status: HttpStatus.BadRequest,
-    source: expressError.path,
-    detail: expressError.msg,
+    field: expressError.path,
+    message: expressError.msg,
   };
 };
 
 export const inputValidationResultMiddleware = (
-  req: Request<{}, {}, {}, {}>,
+  req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  const errors = validationResult(req)
-    .formatWith(formatValidationError)
-    .array({ onlyFirstError: true });
+  const result = validationResult(req);
 
-  if (errors.length > 0) {
+  if (!result.isEmpty()) {
+    const errors = result
+      .formatWith(formatValidationError)
+      .array({ onlyFirstError: true });
+
+
     res.status(HttpStatus.BadRequest).json(createErrorMessages(errors));
     return;
   }
+
   next();
 };
