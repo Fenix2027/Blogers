@@ -10,6 +10,11 @@ import { updatePostHandler } from './handlers/update-post.handler';
 import { deletePostHandler } from './handlers/delete-post.handler';
 import { paginationAndSortingValidation } from '../../core/middlewares/validation/query-pagination-sorting.validation-middleware';
 import { PostSortField } from './input/post-sort-field';
+import { accessTokenGuard } from '../../auth/api/guards/accese.token.guard';
+import { getPostCommentListHandler } from './handlers/get-post-comments.handler';
+import { CommentSortField } from '../../comments/input/comment-sort-field';
+import { contentValidation } from '../../comments/input/comment.input-dto.validation-middleware';
+import { createPostCommentsListHandler } from './handlers/create-post-comments-list.handler';
 
 export const postsRoute = Router({});
 
@@ -49,4 +54,19 @@ postsRoute.delete(
   idValidation,
   inputValidationResultMiddleware,
   deletePostHandler,
+);
+postsRoute.get(
+  '/:id/comments',
+  idValidation,
+  paginationAndSortingValidation(CommentSortField),
+  inputValidationResultMiddleware,
+  getPostCommentListHandler,
+);
+postsRoute.post(
+  '/:id/comments',
+  idValidation,
+  accessTokenGuard,
+  contentValidation,
+  inputValidationResultMiddleware,
+  createPostCommentsListHandler,
 );

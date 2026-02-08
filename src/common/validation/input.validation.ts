@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { validationResult } from 'express-validator';
+import { HttpStatuses } from '../types/httpStatuses';
 
 export const inputValidation = (
   req: Request,
@@ -27,7 +28,7 @@ export const inputValidation = (
   if (!result.isEmpty()) {
     // 2. Убираем return перед res.status (исправляет ошибку TS2769),
     // так как Express ожидает void или Promise<void>
-    res.status(400).send({
+    res.status(HttpStatuses.BadRequest).send({
       // onlyFirstError: true вернет только одну ошибку для каждого поля
       errorsMessages: result.array({ onlyFirstError: true }),
     });

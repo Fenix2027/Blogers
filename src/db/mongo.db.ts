@@ -3,6 +3,7 @@ import { Blog } from '../blogs/domain/blog';
 import { Post } from '../posts/domain/post';
 import { SETTINGS } from '../core/settings/settings';
 import { IUserDB } from '../users/types/user.db.interface';
+import { CommentsView } from '../comments/types/comments.view';
 
 // 1. Экспортируем пустые переменные, которые импортируют ваши репозитории
 export let client: MongoClient;
@@ -10,6 +11,7 @@ export let dbInstance: Db; // Переименовал, чтобы не пута
 export let blogsCollection: Collection<Blog>;
 export let postCollection: Collection<Post>;
 export let usersCollection: Collection<IUserDB>;
+export let commentCollection: Collection<CommentsView>;
 
 // 2. Объект для управления (для bootstrap и тестов)
 export const db = {
@@ -25,6 +27,7 @@ export const db = {
       blogsCollection = dbInstance.collection<Blog>('blogs');
       postCollection = dbInstance.collection<Post>('posts');
       usersCollection = dbInstance.collection<IUserDB>('users');
+      commentCollection = dbInstance.collection<CommentsView>('Comment');
 
       await dbInstance.command({ ping: 1 });
       console.log('✅ Connected successfully to mongo server');
