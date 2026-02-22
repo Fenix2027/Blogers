@@ -7,6 +7,10 @@ export const nodemailerService = {
     code: string,
     template: (code: string) => string,
   ): Promise<boolean> {
+    console.log('Credentials check:', {
+      user: appConfig.EMAIL,
+      pass: !!appConfig.EMAIL_PASS // выведет true/false, чтобы не светить пароль в логах
+    });
     let transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {

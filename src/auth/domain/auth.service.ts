@@ -13,9 +13,10 @@ export const authService = {
   async loginUser(
     loginOrEmail: string,
     password: string,
-  ): Promise<Result<{ accessToken: string } | null>> {
+    // 1. Обновляем возвращаемый тип: добавляем refreshToken
+  ): Promise<Result<{ accessToken: string, refreshToken: string } | null>> {
     const result = await this.checkUserCredentials(loginOrEmail, password);
-    //TODO replace with helper function
+
     if (result.status !== ResultStatus.Success)
       return {
         status: ResultStatus.Unauthorized,
@@ -24,13 +25,19 @@ export const authService = {
         data: null,
       };
 
-    const accessToken = await jwtService.createToken(
-      result.data!._id.toString(),
-    );
+    const userId = result.data!._id.toString();
+
+    // 2. Генерируем оба токена
+    // (Убедитесь, что эти методы созданы в jwtService, как мы обсуждали ранее)
+    const accessToken = await jwtService.createAccessToken(userId);
+    const refreshToken = await jwtService.createRefreshToken(userId);
 
     return {
       status: ResultStatus.Success,
-      data: { accessToken },
+      data: {
+        accessToken,
+        refreshToken, // Теперь это поле легально для TS
+      },
       extensions: [],
     };
   },

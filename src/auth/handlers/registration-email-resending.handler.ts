@@ -14,4 +14,5 @@ export async function registrationEmailResending(req: Request, res: Response) {
       errorsMessages: result.extensions,
     });
   }
+  return res.sendStatus(204);
 }

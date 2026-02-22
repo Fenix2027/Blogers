@@ -7,5 +7,7 @@ export const routersPaths = {
         me: '/auth/me',
         registrationConfirmation: '/auth/registration-confirmation',
     registrationEmailResending: '/auth/registration-email-resending',
+        refreshToken: '/refresh-token',
+        logout:'/logout',
     },
 }

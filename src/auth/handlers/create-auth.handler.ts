@@ -24,6 +24,12 @@ export async function createAuthHandler(
         .status(resultCodeToHttpException(result.status))
         .send(result.extensions);
     }
+    // 2. Устанавливаем Refresh Token в Cookie
+    // Это важно: клиент (браузер) будет сам прикреплять эту куку к следующим запросам
+    res.cookie('refreshToken', result.data!.refreshToken, {
+      httpOnly: true, // Защита от XSS (JS не сможет прочитать куку)
+      secure: true,   // Отправка только по HTTPS (для продакшена)
+    });
 
     return res
       .status(HttpStatuses.Success)

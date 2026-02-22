@@ -12,6 +12,8 @@ import { registrationEmailResending } from '../handlers/registration-email-resen
 import { codeValidation } from '../middlewares/validation/codevalidation';
 import { loginValidation } from '../../users/api/middlewares/login.validation';
 import { emailValidation } from '../../users/api/middlewares/email.validation';
+import { refreshTokenHandler } from '../handlers/refresh-token.handler';
+import { logoutHandler } from '../handlers/logout.handler';
 
 export const authRouter = Router();
 
@@ -23,6 +25,13 @@ authRouter.post(
   createAuthHandler,
 );
 
+authRouter.post(routersPaths.auth.refreshToken, refreshTokenHandler);
+
+authRouter.post(
+  routersPaths.auth.logout,
+  logoutHandler
+);
+
 authRouter.get(routersPaths.auth.me, accessTokenGuard, getAuthMe);
 
 authRouter.post(
@@ -32,16 +41,17 @@ authRouter.post(
   emailValidation,
   inputValidation,
   registerUserHandler,
-  )
+);
 
 authRouter.post(
   routersPaths.auth.registrationConfirmation,
   inputValidation,
   codeValidation,
-  registrationConfirmation)
+  registrationConfirmation,
+);
 
 authRouter.post(
   routersPaths.auth.registrationEmailResending,
   inputValidation,
-  registrationEmailResending
-)
+  registrationEmailResending,
+);
